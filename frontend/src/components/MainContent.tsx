@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import ChatMessage from "./ChatMessage";
+import { useChat } from "../context/useChatContext";
+import { Message } from "../types/chat";
 
 const AssistantPrompt = ({
   title,
@@ -25,14 +28,37 @@ const AssistantPrompt = ({
 );
 
 const MainContent = () => {
+  const { messages, addMessage } = useChat();
   const [inputText, setInputText] = useState("");
-  const [response, setResponse] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!inputText.trim()) return;
+
+    // Add user message
+    const userMessage: Message = {
+      role: "user",
+      type: "text",
+      content: {
+        sections: [
+          {
+            points: [
+              {
+                text: inputText,
+                citations: [],
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    // Add user message
+    addMessage(userMessage);
+    setInputText("");
 
     try {
-      const res = await fetch("http://localhost:8000/chat", {
+      const response = await fetch("http://localhost:8000/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,9 +66,23 @@ const MainContent = () => {
         body: JSON.stringify({ message: inputText }),
       });
 
-      const data = await res.json();
-      setResponse(data.response);
-      setInputText("");
+      const data = await response.json();
+
+      console.log("data", data);
+
+      // Add assistant response
+      addMessage({
+        role: "assistant",
+        type: "structured_response",
+        content: data || {
+          title: "Response",
+          sections: [
+            {
+              points: [data.response || "No response content"],
+            },
+          ],
+        },
+      });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -50,34 +90,47 @@ const MainContent = () => {
 
   return (
     <main className="main-content">
-      <h1>Hi Bianca,</h1>
-      <p className="subtitle">How can I help you today?</p>
+      <div className="inner-content">
+        <div className="intro-text">
+          <h1>Hi Bianca,</h1>
+          <p className="subtitle">How can I help you today?</p>
+        </div>
 
-      <div className="prompts-container">
-        {response ? (
-          <div className="response-container">
-            <p>{response}</p>
+        <div className="prompts-wrapper">
+          <div className="prompts-container">
+            {messages.length > 1 ? (
+              <div className="response-container">
+                {messages.map((message, index) => (
+                  <ChatMessage
+                    key={index}
+                    content={message.content}
+                    role={message.role}
+                    type={message.type}
+                  />
+                ))}
+              </div>
+            ) : (
+              <>
+                <AssistantPrompt
+                  title="Ask Assistant a question..."
+                  description="Ask about company programs, career growth, or Lattice best practices."
+                />
+                <AssistantPrompt
+                  title="Ask Assistant to summarize..."
+                  description="Feedback, notes, goal progress, team sentiment..."
+                />
+                <AssistantPrompt
+                  title="Ask Assistant for recommendations..."
+                  description="On your growth areas or goals, how to coach your team..."
+                />
+                <AssistantPrompt
+                  title="Ask Assistant for help writing..."
+                  description="Draft feedback, reviews, updates, growth areas..."
+                />
+              </>
+            )}
           </div>
-        ) : (
-          <>
-            <AssistantPrompt
-              title="Ask Assistant a question..."
-              description="Ask about company programs, career growth, or Lattice best practices."
-            />
-            <AssistantPrompt
-              title="Ask Assistant to summarize..."
-              description="Feedback, notes, goal progress, team sentiment..."
-            />
-            <AssistantPrompt
-              title="Ask Assistant for recommendations..."
-              description="On your growth areas or goals, how to coach your team..."
-            />
-            <AssistantPrompt
-              title="Ask Assistant for help writing..."
-              description="Draft feedback, reviews, updates, growth areas..."
-            />
-          </>
-        )}
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="input-container">

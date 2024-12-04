@@ -1,0 +1,143 @@
+{
+  "updates": [
+    {
+      "name": "Bianca",
+      "role": "Manager",
+      "weeks": [
+        {
+          "week": 1,
+          "focus": [
+            "Reviewed team workload and adjusted project priorities to alleviate overwork for Luna and Jeremy.",
+            "Held 1:1 meetings with all direct reports to discuss goals and challenges.",
+            "Collaborated with Ally on clarifying deliverables for Project Galileo."
+          ],
+          "challenges": [
+            "Team discussions felt dominated by a few voices—started implementing a round-robin speaking approach during meetings."
+          ],
+          "plans": [
+            "Focus on fostering a psychologically safe environment in team discussions.",
+            "Improve delegation by assigning clear task ownership for Project Galileo."
+          ],
+          "sentimentScore": 4
+        },
+        {
+          "week": 2,
+          "focus": [
+            "Aligned with Alfie and Zee on design and product requirements for Galileo.",
+            "Worked with Jenny to identify blockers in the backend architecture.",
+            "Encouraged Luna to take ownership of the React component development."
+          ],
+          "challenges": [
+            "Balancing support for individual team members while driving overall project deadlines."
+          ],
+          "plans": [
+            "Facilitate a team retrospective to discuss workload balance and psychological safety.",
+            "Delegate more tasks to senior engineers to distribute responsibilities effectively."
+          ],
+          "sentimentScore": 3
+        },
+        {
+          "week": 3,
+          "focus": [
+            "Monitored team morale after introducing changes to workload distribution.",
+            "Resolved dependencies with external API integrations alongside Adam.",
+            "Identified areas where Jeremy could contribute more effectively to Galileo."
+          ],
+          "challenges": [
+            "Managing increasing demands on team bandwidth due to overlapping deliverables."
+          ],
+          "plans": [
+            "Streamline priorities to ensure the team isn’t overburdened.",
+            "Schedule additional time with Ally to revisit deadlines."
+          ],
+          "sentimentScore": 3
+        },
+        {
+          "week": 4,
+          "focus": [
+            "Held a team-wide sync to celebrate small wins and recognize contributions.",
+            "Collaborated with Zee to refine assistant UI designs.",
+            "Provided Jenny with feedback on mentorship impact for Luna and Jeremy."
+          ],
+          "challenges": [
+            "Maintaining team alignment with competing feature requests from stakeholders."
+          ],
+          "plans": [
+            "Develop a roadmap to better align with cross-functional partners.",
+            "Encourage Adam to take on a lead role for the next sprint planning."
+          ],
+          "sentimentScore": 4
+        }
+      ]
+    },
+    {
+      "name": "Jenny Slate",
+      "role": "Staff Software Engineer",
+      "weeks": [
+        {
+          "week": 1,
+          "focus": [
+            "Provided Luna guidance on React component optimizations.",
+            "Worked on API integration challenges for Galileo backend.",
+            "Conducted a code review for Jeremy to improve his technical confidence."
+          ],
+          "challenges": [
+            "Limited time for deep work due to frequent meetings."
+          ],
+          "plans": [
+            "Allocate uninterrupted time to address backend complexity issues.",
+            "Mentor Jeremy on effective debugging techniques."
+          ],
+          "sentimentScore": 4
+        },
+        {
+          "week": 2,
+          "focus": [
+            "Resolved critical backend architecture issues.",
+            "Supported Luna in finalizing the UI framework setup.",
+            "Collaborated with Adam on system optimization discussions."
+          ],
+          "challenges": [
+            "Balancing mentoring responsibilities with backend deliverables."
+          ],
+          "plans": [
+            "Proactively identify areas where Luna and Jeremy can work independently."
+          ],
+          "sentimentScore": 3
+        },
+        {
+          "week": 3,
+          "focus": [
+            "Helped Jeremy implement new features in Galileo’s full-stack components.",
+            "Refined API error handling to improve system reliability.",
+            "Participated in team discussions to address workload imbalances."
+          ],
+          "challenges": [
+            "Feeling stretched thin with mentoring and technical responsibilities."
+          ],
+          "plans": [
+            "Delegate some technical responsibilities to Luna.",
+            "Reduce non-essential meeting commitments."
+          ],
+          "sentimentScore": 2
+        },
+        {
+          "week": 4,
+          "focus": [
+            "Identified a critical bug in the backend and resolved it swiftly.",
+            "Provided positive feedback to Luna for her work on UI components.",
+            "Streamlined code review processes to improve team velocity."
+          ],
+          "challenges": [
+            "Still balancing heavy responsibilities with mentoring commitments."
+          ],
+          "plans": [
+            "Continue reducing meeting overload to free up time for deep work.",
+            "Support Adam in identifying potential blockers early in the next sprint."
+          ],
+          "sentimentScore": 4
+        }
+      ]
+    }
+  ]
+}

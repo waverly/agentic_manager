@@ -7,6 +7,8 @@ import os
 import sqlite3
 import logging
 from fastapi.middleware.cors import CORSMiddleware
+from .chatbot.coach_tools import get_team_updates, synthesize_updates
+from pydantic import BaseModel
 
 app = FastAPI(
     title="Lattice Manager Agent API",
@@ -55,6 +57,23 @@ async def root():
     return {
         "message": "Welcome to the Lattice Manager Agent API. Visit /docs for documentation."
     }
+
+
+class ChatRequest(BaseModel):
+    message: str
+
+
+@app.post("/chat", tags=["Chat"])
+async def chat(request: ChatRequest):
+    """
+    Handle chat messages and return responses.
+    """
+    try:
+        response = synthesize_updates(request.message)
+        return response
+    except Exception as e:
+        logger.error(f"Error in chat endpoint: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # @app.get("/pages", response_class=PrettyJSONResponse, tags=["Pages"])
@@ -254,24 +273,3 @@ async def root():
 #     except Exception as e:
 #         logger.error(f"Error retrieving links: {e}")
 #         raise HTTPException(status_code=500, detail="Internal Server Error")
-
-
-@app.post("/chat", tags=["Chat"])
-async def chat(request: dict):
-    """
-    Handle chat messages and return responses.
-    """
-    try:
-        message = request.get("message")
-        if not message:
-            raise HTTPException(status_code=400, detail="Message is required")
-
-        # For now, just echo back a simple response
-        response = (
-            f"Did you just say... '{message}' ... this would be the LLM response!"
-        )
-
-        return {"response": response}
-    except Exception as e:
-        logger.error(f"Error in chat endpoint: {e}")
-        raise HTTPException(status_code=500, detail="Internal Server Error")
