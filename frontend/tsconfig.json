@@ -1,5 +1,10 @@
 {
-  "files": [],
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "target": "ESNext"
+  },
+  "include": ["src", "custom.d.ts"],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
