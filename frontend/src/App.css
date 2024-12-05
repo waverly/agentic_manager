@@ -7,7 +7,7 @@
 p {
   margin: 0;
   color: #272727;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .app {
@@ -27,7 +27,7 @@ main.main-content {
   flex-direction: column;
   position: relative;
   color: #272727;
-  background: white;
+  background: #FBF6F2;
 }
 
 .main-content a {
@@ -51,10 +51,14 @@ h1 {
 }
 
 .inner-content {
-  padding: 1.5rem 1.5rem 5rem 1.5rem;
+  padding:3rem 3rem 3rem 3rem;
+  margin-top: 40px;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
   width: 100%;
   overflow-y: auto;
   height: 100%;
+  background: white;
 }
 
 .prompts-wrapper {
@@ -77,7 +81,6 @@ h1 {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -122,13 +125,13 @@ h1 {
 }
 
 .input-container {
-  max-width: 800px;
+  max-width: 100%;
   position: absolute;
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 800px;
+  max-width: 90%;
 }
 
 .input-icons {
@@ -166,7 +169,7 @@ h1 {
 
 .send-button {
   position: absolute;
-  font-size: 13px;
+  font-size: 14px;
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
@@ -196,9 +199,11 @@ h1 {
 }
 
 .date {
-  color: #6b7280;
-  font-size: 15px;
-  margin-bottom: 24px;
+  color: #BDBFBE;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 16px;
 }
 
 .panel-section {
@@ -218,7 +223,7 @@ h1 {
   background: #fcf7f5;
   /* background: pink; */
   max-width: 400px;
-  border-radius: 5px;
+  border-radius: 16px;
   list-style: none;
   padding: 14px;
   margin-left: auto;
@@ -257,25 +262,28 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  gap: 1.3rem;
-  margin-top: 1.3rem;
+  gap: 2rem;
+  margin-top: 3rem;
 }
 
 .insight-card {
   background: white;
-  border-radius: 1rem;
-  padding: 8px;
+  border-radius: 16px;
+  padding: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  border: 1px solid #eaeaea;
+  border: 1px solid #8282FF;
+  flex: 1;
   width: 280px;
 }
 
 .chat-message .insight-content * {
-  font-size: 1rem;
+  font-size: 14px;
 }
 
 .insight-content p {
   color: #6b7280;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .insight-actions {
@@ -288,24 +296,24 @@ h1 {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #f3f4f6;
+  background: #F1F1FF;;
   border: none;
   border-radius: 6px;
   padding: 8px 12px;
-  color: #6366f1;
-  font-size: 1rem;
+  color: #43439A;
+  font-size: 14px;;
   cursor: pointer;
   text-align: left;
   transition: background 0.2s;
 }
 
 .action-button:hover {
-  background: #e5e7eb;
+  background: #E2E2FF;
 }
 
 .diamond {
   font-size: 10px;
-  color: #6366f1;
+  color: #43439A;
 }
 
 /* Initial Tasks */
@@ -329,7 +337,11 @@ h1 {
 .task-icon {
   background: #e5e7eb;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F1F1FF;
 }
 
 .arrow {
@@ -348,38 +360,44 @@ h1 {
 
 /* Sidebar */
 .sidebar {
-  width: 320px;
+  width: 240px;
   padding: 24px;
-  background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
+  background: linear-gradient(180deg, #FBF6F2 0%, #FBF6F2 100%);
   /* Todo - remove this - just added for debugging */
   /* display: none; */
 }
 
-.date {
-  color: #6b7280;
-  font-size: 16px;
-  margin-bottom: 24px;
+.right-sidebar {
+  width: 400px;
+  padding: 24px;
+  background: linear-gradient(180deg, #FBF6F2 0%, #FBF6F2 100%);
 }
 
 .section-label {
-  color: #6b7280;
+  color: #43439A;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.05em;
-  margin-bottom: 16px;
+  padding: 4px 16px 12px;
 }
 
 .highlights-card {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
+  background: #F1F1FF;
+  border-radius: 20px;
+  padding: 8px;
   margin-bottom: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+.card-content {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+}
+
 .recent-work h2,
 .sentiment h2 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #111827;
   margin-bottom: 12px;
@@ -394,6 +412,7 @@ h1 {
 .mention {
   color: #6366f1;
   text-decoration: none;
+  font-size: 14px;
 }
 
 .sentiment ul {
@@ -406,6 +425,7 @@ h1 {
   position: relative;
   padding-left: 16px;
   margin-bottom: 12px;
+  font-size:14px;
   line-height: 1.5;
 }
 
@@ -418,7 +438,7 @@ h1 {
 
 .task-card {
   background: white;
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 12px;
   display: flex;
   align-items: center;
@@ -427,11 +447,11 @@ h1 {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.task-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.task-card span {
+  font-size: 14px;
+  color: #6b7280;
 }
+
 
 .arrow {
   margin-left: auto;
@@ -441,12 +461,15 @@ h1 {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 12px;
+  padding: 12px 24px;
   cursor: pointer;
   border-radius: 6px;
-  color: #6b7280;
-  font-size: 14px;
   text-decoration: none;
+}
+
+.menu-item span {
+   color: #2A2E45;
+  font-size: 14px;
 }
 
 /* Menu sections */
@@ -471,10 +494,10 @@ h1 {
 }
 
 .switch-admin {
-  background: white;
+  background: #FBF6F2;
   color: #111;
   padding: 12px 20px;
-  border-radius: 24px;
+  border-radius: 12px;
   font-size: 14px;
   border: 1px solid #e5e7eb;
   cursor: pointer;
@@ -484,11 +507,11 @@ h1 {
 }
 
 .switch-admin:hover {
-  background: #f7f8fa;
+  background: white;
 }
 
 /* Top navigation bar */
-.top-nav {
+.nav {
   position: fixed;
   top: 0;
   left: 0;
@@ -503,10 +526,10 @@ h1 {
   z-index: 100;
 }
 
-.nav-item {
+/* .nav-item {
   padding: 6px 12px;
   border-radius: 16px;
-  font-size: 13px;
+  font-size: 16px;
   color: #6b7280;
   background: #f7f8fa;
 }
@@ -514,7 +537,7 @@ h1 {
 .nav-item.purple {
   background: #f3f0ff;
   color: #6b46c1;
-}
+} */
 
 /* Add these styles */
 .profile-section {
@@ -524,52 +547,53 @@ h1 {
 
 .profile-card {
   background: white;
-  border: 1px solid #eaeaea;
-  border-radius: 8px;
-  padding: 8px 12px;
+  border: 1px solid #B373ED;
+  border-radius: 12px;
+  padding: 12px 12px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .avatar {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
 .profile-card span {
   color: #111;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .menu-text {
-  font-size: 14px;
+  font-size: 16px;
   color: #6b7280;
 }
 
-.message-content {
+.message-section {
   white-space: pre-wrap;
   line-height: 1.5;
+  max-width: 720px;
 }
 
-.message-content h2 {
-  color: #111827;
+.message-title {
+  color: #272727;
   margin-bottom: 1rem;
 }
 
-.message-content h3 {
-  color: #374151;
+.message-section h {
+  color: #272727;
   margin-top: 1rem;
 }
 
-.message-content p {
-  color: #6b7280;
+.message-section p {
+  color: #272727;
   margin-bottom: 0.5rem;
 }
 
-.message-content li {
-  color: #6b7280;
+.message-section li {
+  color: #272727;
   margin-bottom: 0.5rem;
   padding-left: 1rem;
 }
