@@ -22,7 +22,7 @@ const Sidebar = () => (
     <div className="profile-section">
       <div className="profile-card">
         <img
-          src="https://api.dicebear.com/7.x/avataaars/png?seed=Bianca"
+          src="src/images/BiancaBerg.png"
           alt="Profile"
           className="avatar"
         />
