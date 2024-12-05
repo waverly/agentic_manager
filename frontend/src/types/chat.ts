@@ -19,12 +19,14 @@ export interface StructuredContent {
   title?: string;
   sections?: Section[];
   insights?: Card[];
+  conclusion?: Section[];
 }
 
 export interface Message {
   role: string;
+  content?: StructuredContent;
+  simpleMessage?: string;
   type: string;
-  content: StructuredContent;
 }
 
 export interface Insight {

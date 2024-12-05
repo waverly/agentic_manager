@@ -1,148 +1,49 @@
-from pydantic import BaseModel
-from typing import List, Optional
 import json
-from pathlib import Path
+from typing import Callable, Literal
 from openai import OpenAI
 
 client = OpenAI()
 MODEL = "gpt-4o"
 
-
-# Data retrieval
-def get_team_updates() -> dict:
-    """Use this to get the user's competency matrix."""
-    json_path = Path(__file__).parent.parent / "mocks" / "coach_updates.json"
-    with open(json_path) as f:
-        return json.load(f)
-
-
-# structured output models
-class Point(BaseModel):
-    text: str
-    citations: List[int]
-
-
-class Card(BaseModel):
-    title: str
-    description: str
-    actions: List[str]
+from .coach_data_fetch import (
+    get_team_updates,
+    get_user_context_data,
+    get_reviews_data,
+    get_feedback_data,
+)
+from .structured_output_classes import (
+    Content,
+    UpdatesSynthesisContent,
+    AdjustWorkloadContent,
+    IntentClassificationResponse,
+)
 
 
-class CardPoint(BaseModel):
-    card: Card
-
-
-class Section(BaseModel):
-    heading: str
-    points: List[Point]
-
-
-class UpdatesSynthesisContent(BaseModel):
-    title: str
-    sections: List[Section]
-    insights: List[Card]
-
-
-class StructuredResponse(BaseModel):
-    type: str = "structured_response"
-    content: UpdatesSynthesisContent
-
-
-# Data processing
-example_structured_output = """
-{
-  "type": "structured_response",
-  "content": {
-    "title": "Summary of Reports' Updates for the Last Four Weeks",
-    "sections": [
-      {
-        "heading": "1. Increasing Meeting Overload",
-        "points": [
-          {
-            "text": "Both Jenny and Luna have consistently mentioned spending over 15 hours in meetings weekly, leaving little time for deep work.",
-            "citations": [2]
-          },
-          {
-            "text": "Their updates express frustration over a lack of progress on their key deliverables due to the constant context-switching.",
-            "citations": [2]
-          }
-        ]
-      },
-      {
-        "heading": "2. Low Morale Due to Overwork",
-        "points": [
-          {
-            "text": "Luna and Jeremy mentioned feeling burned out, particularly in Weeks 3 and 4, citing deadlines that felt overly ambitious.",
-            "citations": [2]
-          },
-          {
-            "text": "Jenny shared that she worked late multiple nights to \"stay afloat\" and felt under appreciated for her effort.",
-            "citations": [1]
-          }
-        ]
-      },
-      {
-        "heading": "3. Decreasing Psychological Safety",
-        "points": [
-          {
-            "text": "Multiple team members (Adam and Luna) have indicated they feel less comfortable bringing up tough issues during team meetings.",
-            "citations": [2]
-          },
-          {
-            "text": "One report explicitly wrote in Week 4 that team discussions feel \"dominated by a few voices,\" making it difficult for others to contribute.",
-            "citations": [1]
-          }
-        ]
-      },
-      {
-        "heading": "Insights and Suggestions",
-        "points": [
-          {
-            "card": {
-              "title": "Meeting overload",
-              "description": "Meeting overload is affecting productivity and morale",
-              "actions": [
-                "Add as 1:1 topic with Jenny and Luna",
-                "Analyze your team's Meetings"
-              ]
-            }
-          },
-          {
-            "card": {
-              "title": "Workload imbalance",
-              "description": "Workload imbalance and unclear priorities are leading to burnout",
-              "actions": [
-                "Review team's work summaries",
-                "Adjust workloads based on strengths"
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  }
-}"""
-
-general_system_template = """
-You are an AI assistant specializing in supporting HR professionals and managers by analyzing team updates, sentiment trends, and workplace dynamics. Your goal is to provide clear, concise, and actionable insights based on team feedback, updates, and behaviors. Respond to user questions by synthesizing information into summaries or recommendations, ensuring empathy, professionalism, and relevance.
+general_system_template = f"""
+You are an AI coach for managers specializing in supporting the user by 
+analyzing team updates, sentiment trends, and workplace dynamics. 
+Your goal is to provide clear, concise, and actionable insights based on team feedback, updates, 
+and behaviors. 
+Respond to user questions by synthesizing information into summaries or recommendations, 
+ensuring empathy, professionalism, and relevance.
 
 When responding:
-
+- Respond directly to the current user. Do not include the current user in your response - assume
+they are the manager of the team and the person making the request.
+- Use the current user context data to understand who is making the request and the org structure reporting to them
 - Identify key themes, trends, or patterns from team updates or data.
 - Provide actionable suggestions to improve team morale, productivity, or alignment.
 - Use concise and accessible language.
 - Tailor responses to the user's request, whether they need summaries, insights, or strategies.
+
+
+Here is the user's context data:
+{get_user_context_data()}
 """
 
-# prior to adopting structured output, i tried this approach
-unused_format_instructions = """
-    ALWAYS generate a title for your response and include it in the "title" field. For example, if the user asks "Summarize my team’s recent updates so I can understand why their sentiment is trending down", 
-    the title should be "Summary of Reports' Updates for the Last Four Weeks".
-    
-    ALWAYS respond with valid JSON that matches this structure:
 
-    {example_structured_output}
-"""
+# TOOLS
+# MAKE SURE TO ADD EACH TOOL TO THE TOOL REGISTRY
 
 
 def synthesize_updates(message: str) -> dict:
@@ -172,9 +73,7 @@ def synthesize_updates(message: str) -> dict:
     """
 
     system_template = f"""
-        You are an AI assistant specializing in supporting HR professionals and managers by 
-        analyzing team updates, 
-        sentiment trends, and workplace dynamics.
+        {general_system_template}
         
         Please follow these instructions for sections:
         {section_format_instructions}
@@ -210,10 +109,160 @@ def synthesize_updates(message: str) -> dict:
     )
 
     try:
-        print("completion sut wus tsut", completion)
+        response = completion.choices[0].message.parsed
+        print("get_team_updates response is ", response)
+        return response
+    except json.JSONDecodeError:
+        raise ValueError("Invalid JSON response from OpenAI")
+
+
+def synthesize_adjust_workload(message: str) -> dict:
+    """Use this to adjust the workloads of the team to be more efficient and balanced."""
+    updates = get_team_updates()
+    json_updates = json.dumps(updates, indent=2)
+
+    reviews = get_reviews_data()
+    json_reviews = json.dumps(reviews, indent=2)
+
+    feedback = get_feedback_data()
+    json_feedback = json.dumps(feedback, indent=2)
+
+    section_format_instructions = """
+    When summarizing the workload adjustments, each heading should be the name of one of the user's reports.
+    """
+
+    expected_outcome_format_instructions = """
+    The expected outcome section should have a single heading that says "Expected Outcome" and a list of points
+    that describe the expected outcome if all suggestions are implemented.
+    """
+
+    system_template = f"""
+        {general_system_template}
+        
+        There should be a section for each report, 
+        and a section for the expected outcome if all suggestions are implemented.
+        
+        Please follow these instructions for sections:
+        {section_format_instructions}
+        
+        Please follow these instructions for the expected outcome:
+        {expected_outcome_format_instructions}
+    """
+
+    user_message = f"""
+    
+    Here is the user's message: 
+        {message}
+    
+    Here is the relevant data:
+        - team updates: 
+            {json_updates}. 
+        - reviews:
+            {json_reviews}
+        - feedback:
+            {json_feedback}
+            
+
+        Focus on:
+        - Meeting loads and time management
+        - Team morale and workload distribution
+        - Psychological safety and team dynamics
+    """
+
+    completion = client.beta.chat.completions.parse(
+        model=MODEL,
+        messages=[
+            {
+                "role": "system",
+                "content": system_template,
+            },
+            {
+                "role": "user",
+                "content": user_message,
+            },
+        ],
+        response_format=AdjustWorkloadContent,
+    )
+
+    try:
         response = completion.choices[0].message.parsed
 
         print("get_team_updates response is ", response)
         return response
     except json.JSONDecodeError:
         raise ValueError("Invalid JSON response from OpenAI")
+
+
+def ask_for_clarification(message: str) -> dict:
+    return {
+        "role": "assistant",
+        "type": "SimpleMessage",
+        "simpleMessage": f"I'm not quite sure what you're asking when you say {message}. Could you please clarify if you want to understand team updates or get help with workload adjustment?",
+    }
+
+
+# INTENT CLASSIFICATION
+tool_registry: dict[str, dict[str, Callable]] = {
+    "synthesize_updates": {
+        "description": "User wants to understand team updates or trends",
+        "function": synthesize_updates,
+    },
+    "synthesize_adjust_workload": {
+        "description": "User wants help with workload adjustment",
+        "function": synthesize_adjust_workload,
+    },
+}
+
+
+# This intent classification is used to route the user's message to the appropriate function.
+def intent_classification(
+    message: str,
+) -> UpdatesSynthesisContent | AdjustWorkloadContent | Content:
+    """Use this to classify the user's intent."""
+    system_template = """
+                Classify the user's intent into ONLY one of these categories:
+                - synthesize_updates: User wants to understand team updates or trends
+                - synthesize_adjust_workload: User wants help with workload adjustment
+                
+                If the message doesn't clearly fit either category, choose the closest match but include a clarifying message.
+                """
+
+    user_message = f"""
+        Here is the user's message:
+            {message}
+    """
+
+    completion = client.beta.chat.completions.parse(
+        model=MODEL,
+        messages=[
+            {
+                "role": "system",
+                "content": system_template,
+            },
+            {
+                "role": "user",
+                "content": user_message,
+            },
+        ],
+        response_format=IntentClassificationResponse,
+    )
+
+    response_data = completion.choices[0].message.parsed
+    validated_response = IntentClassificationResponse.model_validate(response_data)
+    intent, confidence = validated_response.intent, validated_response.confidence
+
+    print("INTENT", validated_response.intent)
+
+    # TODO: add retry logic to only allow to ask for clarification 3 times or so
+    if confidence < 0.7:
+        #     intent.type = "SimpleMessage"
+        #     intent.string = "I'm not quite sure what you're asking. Could you please clarify if you want to understand team updates or get help with workload adjustment?"
+        #     return intent
+
+        print("confidence is less than 0.7")
+        return ask_for_clarification(message)
+    else:
+        print("confidence is greater than 0.7", confidence)
+        print("intent", intent)
+        print(f"from intent classification, {tool_registry[intent]['description']}")
+        return tool_registry[intent]["function"](message)

@@ -38,19 +38,8 @@ const MainContent = () => {
     // Add user message
     const userMessage: Message = {
       role: "user",
-      type: "text",
-      content: {
-        sections: [
-          {
-            points: [
-              {
-                text: inputText,
-                citations: [],
-              },
-            ],
-          },
-        ],
-      },
+      type: "plain_text",
+      simpleMessage: inputText,
     };
 
     // Add user message
@@ -71,17 +60,12 @@ const MainContent = () => {
       console.log("data", data);
 
       // Add assistant response
+      //   TODO: make more generalized
       addMessage({
         role: "assistant",
-        type: "structured_response",
-        content: data || {
-          title: "Response",
-          sections: [
-            {
-              points: [data.response || "No response content"],
-            },
-          ],
-        },
+        simpleMessage: data?.simpleMessage,
+        content: data || null,
+        type: data.type,
       });
     } catch (error) {
       console.error("Error:", error);
@@ -98,15 +82,10 @@ const MainContent = () => {
 
         <div className="prompts-wrapper">
           <div className="prompts-container">
-            {messages.length > 1 ? (
+            {messages.length > 0 ? (
               <div className="response-container">
                 {messages.map((message, index) => (
-                  <ChatMessage
-                    key={index}
-                    content={message.content}
-                    role={message.role}
-                    type={message.type}
-                  />
+                  <ChatMessage key={index} {...message} />
                 ))}
               </div>
             ) : (

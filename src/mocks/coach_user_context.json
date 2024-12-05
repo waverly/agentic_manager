@@ -1,0 +1,21 @@
+{
+  "employee_id": "E002",
+  "first_name": "Bianca",
+  "last_name": "Blue",
+  "email": "bianca.blue@lattice.com",
+  "phone_number": "+1-555-5678",
+  "job_title": "Manager",
+  "level": "L6",
+  "team_name": "AI Engineering",
+  "manager": "Ally",
+  "start_date": "2020-03-01",
+  "employment_type": "Full-time",
+  "status": "Active",
+  "location": "San Francisco, CA",
+  "direct_reports": [
+    "Luna Lovegood",
+    "Jenny Slate",
+    "Jeremy Casey",
+    "Larry Finch"
+  ]
+}

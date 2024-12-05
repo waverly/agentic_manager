@@ -7,7 +7,11 @@ import os
 import sqlite3
 import logging
 from fastapi.middleware.cors import CORSMiddleware
-from .chatbot.coach_tools import get_team_updates, synthesize_updates
+from .chatbot.coach_tools import (
+    get_team_updates,
+    intent_classification,
+    synthesize_updates,
+)
 from pydantic import BaseModel
 
 app = FastAPI(
@@ -69,7 +73,8 @@ async def chat(request: ChatRequest):
     Handle chat messages and return responses.
     """
     try:
-        response = synthesize_updates(request.message)
+        response = intent_classification(request.message)
+        print("response", response)
         return response
     except Exception as e:
         logger.error(f"Error in chat endpoint: {e}")

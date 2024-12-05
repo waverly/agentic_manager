@@ -14,7 +14,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from typing import List, Literal
 
 
-from .tools import (
+from .outdated_tools import (
     comprehensive_github_analysis,
     get_competency_matrix_for_level,
     get_day_of_week,
@@ -37,7 +37,6 @@ from .tools import (
 from .llm import llm
 
 from .state import State
-
 
 
 logging.basicConfig(level=logging.INFO)
@@ -84,13 +83,15 @@ Remember to:
 - For example, if the user asks about their level, use the get_user_context_string tool, parse the json for relevant information, and then respond with "You are currently at level L4." instead of displaying raw data.
 """
 
+
 def get_messages_info(messages):
     return [SystemMessage(content=template)] + messages
 
+
 # Tools for the LLM (returns strings)
 llm_tools = [
-    get_day_of_week,          
-    get_user_first_name,      
+    get_day_of_week,
+    get_user_first_name,
     get_competency_matrix_for_level,
     get_user_context_string,
     get_calendar_summary,
@@ -111,56 +112,62 @@ llm_with_tools = llm.bind_tools(llm_tools)
 prompt_system = """Based on the following user input, offer relevant information and continue the conversation:
 {reqs}"""
 
+
 def get_chatbot_messages(messages: list):
     logger.info("top of get_chatbot_messages")
     # Always include the system prompt with tools information
     messages_to_send = [SystemMessage(content=template)]
-    
+
     # Add all non-tool messages to the conversation
     for m in messages:
         if not isinstance(m, ToolMessage):
             messages_to_send.append(m)
-        
+
     logger.info(f"Sending {len(messages_to_send)} messages to LLM")
     return messages_to_send
 
+
 def chatbot_gen_chain(state):
-    logger.info('get type of messages: %s', type(state["messages"][-1]))
-    logger.info("Is this a tool message? %s", isinstance(state["messages"][-1], ToolMessage))
-    
+    logger.info("get type of messages: %s", type(state["messages"][-1]))
+    logger.info(
+        "Is this a tool message? %s", isinstance(state["messages"][-1], ToolMessage)
+    )
+
     messages = get_messages_info(state["messages"])
 
     if isinstance(state["messages"][-1], ToolMessage):
         logger.info("Processing ToolMessage.")
         tool_result = state["messages"][-1].content
         user_message = next(
-        (
-            msg.content
-            for msg in reversed(state["messages"])
-            if isinstance(msg, HumanMessage)
-        ),
-        "",
+            (
+                msg.content
+                for msg in reversed(state["messages"])
+                if isinstance(msg, HumanMessage)
+            ),
+            "",
         )
-        
+
         # Create a prompt to format the tool data
         formatting_prompt = f"""
         You are a thoughtful and caring career coach and mentor. 
         Given the following user message: {user_message}, and the following tool result: {tool_result}, 
         provide a clear and concise response to the user.
         """
-        
+
         # Invoke the LLM to format the response
-        formatted_response = llm_with_tools.invoke([SystemMessage(content=formatting_prompt) ] + messages)
+        formatted_response = llm_with_tools.invoke(
+            [SystemMessage(content=formatting_prompt)] + messages
+        )
         formatted_text = formatted_response.content.strip()
-        
+
         # Append the formatted message as AIMessage
         state["messages"].append(AIMessage(content=formatted_text))
-        
+
         # Set the flag indicating a tool has been processed
         state["tool_processed"] = True
         logger.info("Formatted AIMessage appended in chatbot_gen_chain.")
         return state
-    
+
     if isinstance(state["messages"][-1], HumanMessage):
         try:
             # Simple, synchronous invocation
@@ -169,15 +176,20 @@ def chatbot_gen_chain(state):
             logger.info("Chatbot response appended to state.")
         except Exception as e:
             logger.exception("Error while getting response from LLM: %s", e)
-            state["messages"].append(AIMessage(content="I'm sorry, something went wrong while generating the response."))
-        
+            state["messages"].append(
+                AIMessage(
+                    content="I'm sorry, something went wrong while generating the response."
+                )
+            )
+
         return state
     elif not state["messages"]:
         logger.info("No messages found; skipping chatbot.")
-        return state 
+        return state
     else:
         logger.info("Message wasnt any discernable type")
         return state
+
 
 def conversation_starter_chain(state: State):
     if state.get("starter_done", False):
@@ -193,18 +205,19 @@ def conversation_starter_chain(state: State):
     logger.info("Conversation starter chain completed!")
     return state
 
+
 def calendar_summary_chain(state):
     logger.info("Calendar summary chain invoked.")
     response = get_calendar_summary.invoke({"week": "this_week"})
     state["messages"].append(response)
     return state
 
+
 def create_synthesis_of_week_chain(state):
     logger.info("Create synthesis of week chain invoked.")
     response = create_synthesis_of_week.run({})
     state["messages"].append(response)
     return state
-
 
 
 # TODO: start implementing analysis based on the data, and synthesizing with github
@@ -216,19 +229,18 @@ def route_based_on_human_input(state):
         return "conversation_starter_chain"
 
     if state.get("tool_processed", False):
-            logger.info("Tool processed, skipping routing.")
-            state["tool_processed"] = False
-            return "chatbot"
-        
+        logger.info("Tool processed, skipping routing.")
+        state["tool_processed"] = False
+        return "chatbot"
+
     user_message = next(
-    (
-        msg.content
-        for msg in reversed(state["messages"])
-        if isinstance(msg, HumanMessage)
-    ),
-    "",
+        (
+            msg.content
+            for msg in reversed(state["messages"])
+            if isinstance(msg, HumanMessage)
+        ),
+        "",
     )
-    
 
     # Create a routing prompt for the LLM
     routing_prompt = """Given the following user message, determine which node to route to.
@@ -241,13 +253,13 @@ def route_based_on_human_input(state):
     
     Respond with only one one of the given string names from the available nodes above".
     """
-    
+
     # Get routing decision from LLM
     response = llm.invoke(routing_prompt.format(message=user_message))
     route = response.content.strip().lower()
-    
+
     logger.info(f"LLM routing decision: {route} for message: {user_message}")
-    
+
     # Validate the response
     if route in ["cal_sum", "create_synthesis_of_week"]:
         return route
@@ -260,8 +272,8 @@ def route_based_on_human_input(state):
 # Still havent really figured out what these need to return in terms of type
 
 tools_for_node = [
-    get_day_of_week,          
-    get_user_first_name,      
+    get_day_of_week,
+    get_user_first_name,
     get_competency_matrix_for_level,
     get_user_context_string,
     get_calendar_summary,
@@ -288,7 +300,6 @@ graph_builder.add_node("cal_sum", calendar_summary_chain)
 graph_builder.add_node("create_synthesis_of_week", create_synthesis_of_week_chain)
 graph_builder.add_node("chatbot", chatbot_gen_chain)
 graph_builder.add_node("tools", tool_node)
-
 
 
 graph_builder.set_entry_point("conversation_starter_chain")

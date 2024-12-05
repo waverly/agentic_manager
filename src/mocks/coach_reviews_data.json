@@ -1,0 +1,172 @@
+{
+  "reviews": [
+    {
+      "name": "Jenny Slate",
+      "role": "Staff Software Engineer",
+      "reviews": {
+        "manager_review": {
+          "feedback": [
+            "Jenny has excelled in her leadership responsibilities, effectively mentoring Luna and Jeremy.",
+            "Her ability to tackle complex technical challenges, particularly in Project Galileo, has been instrumental in keeping the project on track.",
+            "Jenny could focus on balancing her deep work time with mentoring responsibilities to avoid burnout."
+          ],
+          "rating": 4.8
+        },
+        "peer_reviews": [
+          {
+            "peer": "Luna Lovegood",
+            "feedback": [
+              "Jenny has been an excellent mentor, guiding me on React optimizations and helping me grow my technical skills.",
+              "I appreciate her ability to explain complex issues in a way that's easy to understand.",
+              "Occasionally, she can seem overloaded, which impacts her availability."
+            ],
+            "rating": 4.7
+          },
+          {
+            "peer": "Jeremy Casey",
+            "feedback": [
+              "Jenny's mentorship has been invaluable, especially her debugging sessions and help with full-stack components.",
+              "Her insights into backend complexity and how to address it have been a huge help.",
+              "It would be great if Jenny had more time to provide detailed feedback."
+            ],
+            "rating": 4.6
+          }
+        ],
+        "self_review": {
+          "feedback": [
+            "I feel I’ve made significant progress in mentoring Luna and Jeremy, helping them grow in their roles.",
+            "I’ve successfully tackled backend integration challenges and contributed to Project Galileo’s stability.",
+            "I want to improve my time management to better balance mentoring with technical deliverables."
+          ],
+          "rating": 4.5
+        }
+      }
+    },
+    {
+      "name": "Luna Lovegood",
+      "role": "Senior Software Engineer",
+      "reviews": {
+        "manager_review": {
+          "feedback": [
+            "Luna is reliable and has shown strong technical skills, particularly in React and UI/UX design.",
+            "She’s beginning to take on more leadership by guiding Jeremy and owning high-value UI tasks.",
+            "Luna could improve her delegation skills and work on managing workload stress more effectively."
+          ],
+          "rating": 4.5
+        },
+        "peer_reviews": [
+          {
+            "peer": "Jenny Slate",
+            "feedback": [
+              "Luna has consistently delivered high-quality UI components and has been proactive in seeking feedback.",
+              "She has the potential to step into a more active leadership role as her confidence grows.",
+              "I’ve noticed Luna sometimes hesitates to delegate tasks, which could help her focus on higher-value work."
+            ],
+            "rating": 4.6
+          },
+          {
+            "peer": "Jeremy Casey",
+            "feedback": [
+              "Luna has been a great teammate and has supported me with front-end challenges.",
+              "Her guidance on reusable components has been very helpful.",
+              "I think Luna could work on being more assertive during team discussions."
+            ],
+            "rating": 4.4
+          }
+        ],
+        "self_review": {
+          "feedback": [
+            "I’ve taken ownership of critical UI components and worked closely with Jenny to align on design goals.",
+            "I’m proud of my technical contributions to Project Galileo but feel I need to improve my task delegation.",
+            "Managing workload stress is an area I’m actively working to improve."
+          ],
+          "rating": 4.3
+        }
+      }
+    },
+    {
+      "name": "Jeremy Casey",
+      "role": "Software Engineer",
+      "reviews": {
+        "manager_review": {
+          "feedback": [
+            "Jeremy has shown eagerness to learn and grow, taking on new challenges with enthusiasm.",
+            "He’s made progress in building his confidence and technical problem-solving skills, especially in front-end development.",
+            "Jeremy could work on communicating his needs and challenges more proactively to ensure timely support."
+          ],
+          "rating": 4.3
+        },
+        "peer_reviews": [
+          {
+            "peer": "Luna Lovegood",
+            "feedback": [
+              "Jeremy has been proactive in asking for help and learning new frameworks.",
+              "His collaborative attitude has been a great addition to the team.",
+              "He sometimes hesitates to take ownership of complex tasks, which could help him grow faster."
+            ],
+            "rating": 4.2
+          },
+          {
+            "peer": "Jenny Slate",
+            "feedback": [
+              "Jeremy has improved significantly in his debugging and full-stack skills since we started working together.",
+              "He’s eager to learn, which makes him very coachable.",
+              "I’d encourage Jeremy to take initiative on tasks rather than waiting for guidance."
+            ],
+            "rating": 4.3
+          }
+        ],
+        "self_review": {
+          "feedback": [
+            "I’ve been working on building confidence in handling more complex assignments.",
+            "My collaboration with Luna and Jenny has helped me improve my front-end and debugging skills.",
+            "I want to focus on being more proactive in identifying blockers and asking for help when needed."
+          ],
+          "rating": 4.2
+        }
+      }
+    },
+    {
+      "name": "Adam James",
+      "role": "Senior Software Engineer",
+      "reviews": {
+        "manager_review": {
+          "feedback": [
+            "Adam is highly reliable and detail-oriented, consistently delivering high-quality work.",
+            "He has made great strides in stepping into leadership roles, particularly by resolving blockers and proposing solutions during sprint planning.",
+            "Adam could continue building confidence in raising tough issues and driving team discussions."
+          ],
+          "rating": 4.6
+        },
+        "peer_reviews": [
+          {
+            "peer": "Jenny Slate",
+            "feedback": [
+              "Adam has been a dependable teammate, particularly in resolving critical backend and cloud infrastructure issues.",
+              "His attention to detail has helped us avoid major risks during development.",
+              "I’d like to see Adam take a more active role in team discussions to leverage his technical expertise."
+            ],
+            "rating": 4.5
+          },
+          {
+            "peer": "Luna Lovegood",
+            "feedback": [
+              "Adam has been incredibly supportive and always willing to assist with backend challenges.",
+              "His proactive approach to resolving blockers has been a big help for the team.",
+              "It would be great if Adam shared more of his ideas during meetings to foster collaboration."
+            ],
+            "rating": 4.4
+          }
+        ],
+        "self_review": {
+          "feedback": [
+            "I’ve been focusing on stepping into leadership roles by identifying and resolving blockers.",
+            "My contributions to backend optimizations and system reliability have been impactful for Project Galileo.",
+            "I’d like to continue improving my communication skills and confidence in addressing blockers during team meetings."
+          ],
+          "rating": 4.5
+        }
+      }
+    }
+  ]
+}
