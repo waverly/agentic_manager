@@ -1,0 +1,93 @@
+{
+  "company": {
+    "name": "Lettuce",
+    "tagline": "Make Work Meaningful",
+    "departments": [
+      {
+        "name": "Engineering",
+        "headcount": 100,
+        "director": {
+          "name": "Minerva McGonagall",
+          "role": "AI Engineering Director",
+          "teams": [
+            {
+              "name": "Conversational AI",
+              "manager": {
+                "name": "Bianca Berg",
+                "role": "M3 Manager",
+                "reports": [
+                  {
+                    "name": "Jenny Slate",
+                    "role": "Staff Software Engineer",
+                    "strengths": [
+                      "Backend architecture",
+                      "API integrations",
+                      "Leadership potential"
+                    ],
+                    "growth_areas": [
+                      "Mentorship for Luna and Jeremy",
+                      "Balancing leadership and deep work",
+                      "Guidance on complex projects"
+                    ]
+                  },
+                  {
+                    "name": "Luna Lovegood",
+                    "role": "Senior Software Engineer",
+                    "strengths": [
+                      "Frontend development",
+                      "React and TypeScript",
+                      "UI/UX collaboration"
+                    ],
+                    "growth_areas": [
+                      "Developing leadership skills",
+                      "Creating a psychologically safe team environment",
+                      "High-value task focus"
+                    ]
+                  },
+                  {
+                    "name": "Jeremy Casey",
+                    "role": "Software Engineer",
+                    "strengths": [
+                      "Full-stack development",
+                      "Collaborative coding",
+                      "Eagerness to learn"
+                    ],
+                    "growth_areas": [
+                      "Handling complex assignments",
+                      "Developing technical problem-solving skills",
+                      "Clear communication of challenges"
+                    ]
+                  },
+                  {
+                    "name": "Adam James",
+                    "role": "Senior Software Engineer",
+                    "strengths": [
+                      "Cloud infrastructure",
+                      "DevOps",
+                      "System optimization"
+                    ],
+                    "growth_areas": [
+                      "Proactively identifying blockers",
+                      "Leadership in risk management",
+                      "Raising tough issues"
+                    ]
+                  }
+                ]
+              },
+              "product_manager": {
+                "name": "Hermione Granger",
+                "role": "Product Manager",
+                "goal": "Build a product that drives revenue."
+              },
+              "ux_designer": {
+                "name": "Ron Weasley",
+                "role": "UX Designer",
+                "goal": "Create a surprising and delightful visual experience."
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

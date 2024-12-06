@@ -20,6 +20,8 @@ export interface StructuredContent {
   sections?: Section[];
   insights?: Card[];
   conclusion?: Section[];
+  action_items?: string[];
+  summary?: string;
 }
 
 export interface Message {

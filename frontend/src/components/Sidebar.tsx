@@ -12,7 +12,7 @@ import EngagementIcon from "../images/icon-engagement.svg";
 import ReviewsIcon from "../images/icon-reviews.svg";
 import OrgChartIcon from "../images/icon-orgchart.svg";
 import DepartmentsIcon from "../images/icon-department.svg";
-import HelpIcon from "../images/icon-help.svg";
+// import HelpIcon from "../images/icon-help.svg";
 
 const menuItems = [
   { icon: MyTeamIcon, text: "My team" },
@@ -29,9 +29,7 @@ const menuItems = [
   { icon: MyTeamIcon, text: "Directory" },
   { icon: OrgChartIcon, text: "Org chart" },
   { icon: DepartmentsIcon, text: "Departments" },
-  
 ];
-
 
 const Sidebar = () => (
   <div className="sidebar">
@@ -49,13 +47,13 @@ const Sidebar = () => (
         </div>
       ))}
     </nav>
-    <div className="help-section">
+    {/* <div className="help-section">
       <div className="menu-item">
         <img src={HelpIcon} alt="Help" className="icon" />
         <span>Help</span>
       </div>
       <button className="switch-admin">Switch to admin</button>
-    </div>
+    </div> */}
   </div>
 );
 

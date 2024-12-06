@@ -8,28 +8,47 @@
             "name": "Alfie Roberts",
             "title": "Product Manager"
           },
-          "feedback": "Jenny has been instrumental in clarifying technical dependencies for Project Galileo. Her ability to manage complex API integrations has helped keep the project on track. I’d encourage her to communicate her technical constraints earlier to ensure smoother alignment across teams."
+          "date": "2024-11-10",
+          "feedback": "Jenny has been instrumental in clarifying technical dependencies for Project Galileo. Her ability to manage complex API integrations (e.g., PR: 'Implement error handling and retry logic') has kept the project on track. I’d encourage her to communicate her technical constraints earlier to ensure smoother alignment across teams.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-103", "ticket": "GAL-156" },
+            "pr": "Implement error handling and retry logic for conversation design"
+          }
         },
         {
           "giver": {
             "name": "Zee Callahan",
             "title": "Design Lead"
           },
-          "feedback": "Jenny’s guidance on aligning the backend architecture with design needs has been fantastic. However, I noticed she sometimes gets bogged down by technical details, which delays decision-making in cross-functional discussions."
+          "date": "2024-11-12",
+          "feedback": "Jenny’s guidance on aligning the backend architecture with design needs has been fantastic. However, I noticed she sometimes gets bogged down by technical details (e.g., during discussions about the React components in PR: 'Augment unit tests for conversation design'), which delays decision-making in cross-functional discussions.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-103", "ticket": "GAL-155" },
+            "pr": "Augment unit tests for conversation design components"
+          }
         },
         {
           "giver": {
             "name": "Paul Simmons",
             "title": "Senior Backend Engineer"
           },
-          "feedback": "Jenny is an exceptional collaborator. She consistently provides insightful feedback during code reviews. One area to improve could be delegating some technical tasks to others to avoid overloading herself."
+          "date": "2024-11-15",
+          "feedback": "Jenny is an exceptional collaborator. She consistently provides insightful feedback during code reviews for tickets like GAL-154. One area to improve could be delegating some technical tasks to others to avoid overloading herself.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-101", "ticket": "GAL-154" }
+          }
         },
         {
           "giver": {
             "name": "Luna Lovegood",
             "title": "Senior Software Engineer"
           },
-          "feedback": "Jenny has been a fantastic mentor and has boosted my confidence in tackling complex React challenges. I think she could work on prioritizing her own deep work time as well as her mentoring duties."
+          "date": "2024-11-16",
+          "feedback": "Jenny has been a fantastic mentor and has boosted my confidence in tackling complex React challenges. Her feedback on my modular components (PR: 'Create modular React components') has been invaluable. I think she could work on prioritizing her own deep work time as well as her mentoring duties.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-201", "ticket": "GAL-211" },
+            "pr": "Create modular React components"
+          }
         }
       ]
     },
@@ -41,28 +60,45 @@
             "name": "Zee Callahan",
             "title": "Design Lead"
           },
-          "feedback": "Luna is a talented UI/UX engineer with a great eye for design consistency. Her technical skills are excellent, but she sometimes hesitates to propose bold solutions in group discussions."
+          "date": "2024-11-09",
+          "feedback": "Luna is a talented UI/UX engineer with a great eye for design consistency. Her work on the assistant onboarding flow (PR: 'Fix UI bugs in onboarding flow') has been excellent. I’d encourage her to propose bolder solutions in group discussions.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-202", "ticket": "GAL-212" },
+            "pr": "Fix UI bugs in onboarding flow"
+          }
         },
         {
           "giver": {
             "name": "Jeremy Casey",
             "title": "Software Engineer"
           },
-          "feedback": "Luna has been a great mentor for me. She has helped me improve my understanding of reusable components. I think she could step into a stronger leadership role to guide the team more proactively."
+          "date": "2024-11-13",
+          "feedback": "Luna has been a great mentor for me. Her guidance on reusable components (e.g., in the modular React components epic) has improved my skills. I think she could step into a stronger leadership role to guide the team more proactively.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-201" }
+          }
         },
         {
           "giver": {
             "name": "Bianca Blue",
             "title": "Manager"
           },
-          "feedback": "Luna is reliable and consistently delivers on her commitments. I’d like to see her take more initiative in team discussions and delegate tasks more effectively."
+          "date": "2024-11-15",
+          "feedback": "Luna is reliable and consistently delivers on her commitments, such as her work on GAL-211. I’d like to see her take more initiative in team discussions and delegate tasks more effectively.",
+          "relatedItems": {
+            "jira": { "ticket": "GAL-211" }
+          }
         },
         {
           "giver": {
             "name": "Sophia Trent",
             "title": "QA Engineer"
           },
-          "feedback": "Luna has been excellent at catching potential UI bugs early in the process. She could work on communicating more assertively during sprint planning to align better with the team."
+          "date": "2024-11-16",
+          "feedback": "Luna has been excellent at catching potential UI bugs early in the process (e.g., GAL-212). She could work on communicating more assertively during sprint planning to align better with the team.",
+          "relatedItems": {
+            "jira": { "ticket": "GAL-212" }
+          }
         }
       ]
     },
@@ -74,28 +110,45 @@
             "name": "Jenny Slate",
             "title": "Staff Software Engineer"
           },
-          "feedback": "Jeremy has improved significantly in debugging and full-stack tasks. I think he could benefit from taking more ownership of complex assignments to further accelerate his growth."
+          "date": "2024-11-14",
+          "feedback": "Jeremy has improved significantly in debugging and full-stack tasks. His contributions to the backend API refactor (PR: 'Refactor backend API to improve performance') were solid. I think he could benefit from taking more ownership of complex assignments to further accelerate his growth.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-301", "ticket": "GAL-311" },
+            "pr": "Refactor backend API to improve performance"
+          }
         },
         {
           "giver": {
             "name": "Luna Lovegood",
             "title": "Senior Software Engineer"
           },
-          "feedback": "Jeremy has been enthusiastic about learning and is always willing to collaborate. I’d suggest that he communicate more proactively about blockers to get support faster."
+          "date": "2024-11-15",
+          "feedback": "Jeremy has been enthusiastic about learning and is always willing to collaborate. His work on GAL-311 was a great improvement. I’d suggest that he communicate more proactively about blockers to get support faster.",
+          "relatedItems": {
+            "jira": { "ticket": "GAL-311" }
+          }
         },
         {
           "giver": {
             "name": "Michael Allen",
             "title": "Frontend Developer"
           },
-          "feedback": "Jeremy is a quick learner and has shown great potential in front-end development. He could work on improving his confidence when presenting his work in team demos."
+          "date": "2024-11-16",
+          "feedback": "Jeremy is a quick learner and has shown great potential in front-end development, particularly in his work on API error handling. He could work on improving his confidence when presenting his work in team demos.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-302", "ticket": "GAL-312" }
+          }
         },
         {
           "giver": {
             "name": "Ally Thornton",
             "title": "Director of AI Engineering"
           },
-          "feedback": "Jeremy’s eagerness to grow is evident, and he’s been making solid contributions. I’d encourage him to focus on mastering one framework deeply instead of spreading himself thin across multiple areas."
+          "date": "2024-11-17",
+          "feedback": "Jeremy’s eagerness to grow is evident, and he’s been making solid contributions to the API error handling epic (GAL-302). I’d encourage him to focus on mastering one framework deeply instead of spreading himself thin across multiple areas.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-302" }
+          }
         }
       ]
     },
@@ -107,28 +160,44 @@
             "name": "Jenny Slate",
             "title": "Staff Software Engineer"
           },
-          "feedback": "Adam has been a dependable teammate and has resolved critical backend issues. I’d love to see him share his ideas more actively during team meetings to influence technical direction."
+          "date": "2024-11-14",
+          "feedback": "Adam has been a dependable teammate and has resolved critical backend issues for the RAG implementation (GAL-402). I’d love to see him share his ideas more actively during team meetings to influence technical direction.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-402", "ticket": "GAL-412" }
+          }
         },
         {
           "giver": {
             "name": "Alfie Roberts",
             "title": "Product Manager"
           },
-          "feedback": "Adam’s work on optimizing backend performance has been fantastic. However, he sometimes hesitates to speak up when risks arise, which could be improved for better project outcomes."
+          "date": "2024-11-15",
+          "feedback": "Adam’s work on optimizing backend performance (GAL-402) has been fantastic. However, he sometimes hesitates to speak up when risks arise, which could be improved for better project outcomes.",
+          "relatedItems": {
+            "jira": { "ticket": "GAL-412" }
+          }
         },
         {
           "giver": {
             "name": "Bianca Blue",
             "title": "Manager"
           },
-          "feedback": "Adam is highly reliable and detail-oriented, and he’s stepping into leadership roles effectively. I’d encourage him to continue building confidence in driving team discussions and raising tough issues."
+          "date": "2024-11-16",
+          "feedback": "Adam is highly reliable and detail-oriented, and he’s stepping into leadership roles effectively, particularly in the evaluation framework epic. I’d encourage him to continue building confidence in driving team discussions and raising tough issues.",
+          "relatedItems": {
+            "jira": { "epic": "GAL-401" }
+          }
         },
         {
           "giver": {
             "name": "Sophia Trent",
             "title": "QA Engineer"
           },
-          "feedback": "Adam’s thorough approach has helped ensure backend stability during deployments. He could work on communicating risks earlier in the process to avoid last-minute fixes."
+          "date": "2024-11-17",
+          "feedback": "Adam’s thorough approach has helped ensure backend stability during deployments for GAL-402. He could work on communicating risks earlier in the process to avoid last-minute fixes.",
+          "relatedItems": {
+            "jira": { "ticket": "GAL-412" }
+          }
         }
       ]
     }

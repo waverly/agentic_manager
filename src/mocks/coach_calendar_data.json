@@ -1,0 +1,224 @@
+{
+  "calendar": {
+    "last_two_weeks": [
+      {
+        "name": "Bianca Berg",
+        "events": [
+          {
+            "title": "1:1 with Ron Weasley",
+            "date": "2024-11-06",
+            "time": "10:00 AM - 10:30 AM",
+            "description": "Weekly sync to discuss UX progress for Project Gallileo.",
+            "location": "Virtual"
+          },
+          {
+            "title": "1:1 with Adam James",
+            "date": "2024-11-07",
+            "time": "2:00 PM - 2:30 PM",
+            "description": "Discuss Adam's progress on the eval framework and RAG API implementation.",
+            "location": "Virtual"
+          },
+          {
+            "title": "Planning Meeting for Project Gallileo",
+            "date": "2024-11-08",
+            "time": "3:00 PM - 4:00 PM",
+            "description": "Collaborative session with the team to finalize upcoming sprint priorities.",
+            "location": "Virtual"
+          },
+          {
+            "title": "1:1 with Jeremy Casey",
+            "date": "2024-11-10",
+            "time": "11:00 AM - 11:30 AM",
+            "description": "Review Jeremy's progress on backend tasks and unblock Jira issues.",
+            "location": "Virtual"
+          }
+        ]
+      },
+      {
+        "name": "Jenny Slate",
+        "events": [
+          {
+            "title": "PR Review with Ron and Hermione",
+            "date": "2024-11-09",
+            "time": "1:00 PM - 2:00 PM",
+            "description": "Discuss comments on backend error-handling PR (GAL-156).",
+            "location": "Virtual"
+          },
+          {
+            "title": "Backend Architecture Sync",
+            "date": "2024-11-13",
+            "time": "3:00 PM - 4:00 PM",
+            "description": "Address architectural constraints for API integrations.",
+            "location": "Virtual"
+          }
+        ]
+      },
+      {
+        "name": "Luna Lovegood",
+        "events": [
+          {
+            "title": "Frontend Planning Session",
+            "date": "2024-11-10",
+            "time": "10:00 AM - 11:00 AM",
+            "description": "Plan modular React components for the assistant UI.",
+            "location": "Virtual"
+          },
+          {
+            "title": "Sprint Retrospective",
+            "date": "2024-11-13",
+            "time": "2:00 PM - 3:00 PM",
+            "description": "Discuss team learnings and blockers for the past sprint.",
+            "location": "Virtual"
+          }
+        ]
+      },
+      {
+        "name": "Jeremy Casey",
+        "events": [
+          {
+            "title": "Debugging Workshop",
+            "date": "2024-11-09",
+            "time": "4:00 PM - 5:00 PM",
+            "description": "Mentorship session with Jenny focusing on debugging techniques.",
+            "location": "Virtual"
+          },
+          {
+            "title": "Jira Ticket Refinement",
+            "date": "2024-11-14",
+            "time": "10:00 AM - 10:30 AM",
+            "description": "Break down large tickets into smaller tasks with Adam.",
+            "location": "Virtual"
+          }
+        ]
+      }
+    ],
+    "this_week": [
+      {
+        "name": "Bianca Berg",
+        "events": [
+          {
+            "title": "1:1 with Jenny Slate",
+            "date": "2024-11-18",
+            "time": "10:00 AM - 10:30 AM",
+            "description": "Sync on PRs and backend refactoring progress.",
+            "location": "Virtual"
+          },
+          {
+            "title": "1:1 with Luna Lovegood",
+            "date": "2024-11-20",
+            "time": "2:00 PM - 2:30 PM",
+            "description": "Review Luna's work on React components and upcoming tasks.",
+            "location": "Virtual"
+          },
+          {
+            "title": "Project Planning with Minerva",
+            "date": "2024-11-21",
+            "time": "3:00 PM - 4:00 PM",
+            "description": "Plan high-level priorities and updates for Project Gallileo.",
+            "location": "Virtual"
+          }
+        ]
+      },
+      {
+        "name": "Jenny Slate",
+        "events": [
+          {
+            "title": "Backend System Review",
+            "date": "2024-11-20",
+            "time": "11:00 AM - 12:00 PM",
+            "description": "Collaborate with Adam on evaluating backend performance metrics.",
+            "location": "Virtual"
+          },
+          {
+            "title": "Weekly Sync with Ron",
+            "date": "2024-11-21",
+            "time": "9:00 AM - 9:30 AM",
+            "description": "Discuss PR (GAL-154) and design alignment.",
+            "location": "Virtual"
+          }
+        ]
+      },
+      {
+        "name": "Luna Lovegood",
+        "events": [
+          {
+            "title": "Frontend QA Review",
+            "date": "2024-11-19",
+            "time": "10:00 AM - 11:00 AM",
+            "description": "Collaborate with QA to test React components for UI bugs.",
+            "location": "Virtual"
+          }
+        ]
+      },
+      {
+        "name": "Jeremy Casey",
+        "events": [
+          {
+            "title": "API Error Handling",
+            "date": "2024-11-18",
+            "time": "2:00 PM - 3:00 PM",
+            "description": "Work with Adam to address error handling in backend APIs (GAL-312).",
+            "location": "Virtual"
+          }
+        ]
+      }
+    ],
+    "upcoming_week": [
+      {
+        "name": "Bianca Berg",
+        "events": [
+          {
+            "title": "Team Retrospective",
+            "date": "2024-11-27",
+            "time": "3:00 PM - 4:00 PM",
+            "description": "Reflect on progress and identify areas for improvement.",
+            "location": "Virtual"
+          },
+          {
+            "title": "1:1 with Jeremy Casey",
+            "date": "2024-11-28",
+            "time": "11:00 AM - 11:30 AM",
+            "description": "Help Jeremy resolve blockers on GAL-311.",
+            "location": "Virtual"
+          }
+        ]
+      },
+      {
+        "name": "Jenny Slate",
+        "events": [
+          {
+            "title": "Backend Optimization Session",
+            "date": "2024-11-28",
+            "time": "2:00 PM - 3:00 PM",
+            "description": "Optimize backend system for improved RAG performance.",
+            "location": "Virtual"
+          }
+        ]
+      },
+      {
+        "name": "Luna Lovegood",
+        "events": [
+          {
+            "title": "Design Handoff",
+            "date": "2024-11-29",
+            "time": "10:00 AM - 11:00 AM",
+            "description": "Work with Ron to finalize design assets for React components.",
+            "location": "Virtual"
+          }
+        ]
+      },
+      {
+        "name": "Jeremy Casey",
+        "events": [
+          {
+            "title": "Debugging Strategy Session",
+            "date": "2024-11-29",
+            "time": "3:00 PM - 4:00 PM",
+            "description": "Learn advanced debugging techniques with Jenny and Adam.",
+            "location": "Virtual"
+          }
+        ]
+      }
+    ]
+  }
+}

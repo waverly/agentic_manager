@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ChatMessage from "./ChatMessage";
 import { useChat } from "../context/useChatContext";
 import { Message } from "../types/chat";
@@ -30,10 +30,59 @@ const AssistantPrompt = ({
 const MainContent = () => {
   const { messages, addMessage } = useChat();
   const [inputText, setInputText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // let mounted = true;
+    // const controller = new AbortController();
+
+    const fetchFirstMessage = async () => {
+      setIsLoading(true);
+      try {
+        console.log("fetching first message");
+        const response = await fetch("http://localhost:8000/first_message", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          //   signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        console.log("response", response);
+
+        const data = await response.json();
+
+        console.log("data", data);
+
+        addMessage({
+          role: "assistant",
+          simpleMessage: data?.simpleMessage,
+          content: data || null,
+          type: data.type,
+        });
+      } catch (error) {
+        // if (error.name === "AbortError") return;
+        console.error("Error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFirstMessage();
+
+    return () => {
+      console.log("cleanup called ");
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputText.trim()) return;
+    setIsLoading(true);
 
     // Add user message
     const userMessage: Message = {
@@ -69,47 +118,42 @@ const MainContent = () => {
       });
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <main className="main-content">
-      <div className="inner-content">
-        <div className="intro-text">
-          <h1>Hi Bianca,</h1>
-          <p className="subtitle">How can I help you today?</p>
-        </div>
+    <main className={`main-content`}>
+      <div className={`inner-content ${isLoading ? "loading" : ""}`}>
+        {!messages ||
+          (messages.length === 0 && (
+            <div className="intro-text">
+              <h1>Hey Bianca, Coach Lattice here!</h1>
+              <p className="subtitle">
+                Thought I'd stop by, since I noticed some new activity on your
+                team! Please give me a moment while I gather some insights to
+                share...
+              </p>
+            </div>
+          ))}
 
         <div className="prompts-wrapper">
           <div className="prompts-container">
-            {messages.length > 0 ? (
+            {messages.length > 0 && (
               <div className="response-container">
                 {messages.map((message, index) => (
-                  <ChatMessage key={index} {...message} />
+                  <ChatMessage
+                    setIsLoading={setIsLoading}
+                    key={index}
+                    {...message}
+                  />
                 ))}
               </div>
-            ) : (
-              <>
-                <AssistantPrompt
-                  title="Ask Assistant a question..."
-                  description="Ask about company programs, career growth, or Lattice best practices."
-                />
-                <AssistantPrompt
-                  title="Ask Assistant to summarize..."
-                  description="Feedback, notes, goal progress, team sentiment..."
-                />
-                <AssistantPrompt
-                  title="Ask Assistant for recommendations..."
-                  description="On your growth areas or goals, how to coach your team..."
-                />
-                <AssistantPrompt
-                  title="Ask Assistant for help writing..."
-                  description="Draft feedback, reviews, updates, growth areas..."
-                />
-              </>
             )}
           </div>
         </div>
+        {isLoading && <div className="loading-indicator">🤸</div>}
       </div>
 
       <form onSubmit={handleSubmit} className="input-container">

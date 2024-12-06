@@ -1,0 +1,175 @@
+{
+  "githubActivity": [
+    {
+      "engineer": "Jenny Slate",
+      "role": "Staff Software Engineer",
+      "pullRequests": [
+        {
+          "title": "Implement error handling and retry logic for conversation design",
+          "openedDate": "2024-11-04",
+          "mergedDate": "2024-11-06",
+          "comments": [
+            {
+              "comment": "This retry logic looks great, but can you add more logging?",
+              "author": "Adam James"
+            },
+            {
+              "comment": "I love how this simplifies error handling!",
+              "author": "Ron Weasley"
+            }
+          ],
+          "filesChanged": 14,
+          "jira": {
+            "epic": "GAL-101",
+            "ticket": "GAL-154"
+          }
+        },
+        {
+          "title": "Refactor old proof-of-concept code for backend architecture",
+          "openedDate": "2024-11-10",
+          "mergedDate": "2024-11-12",
+          "comments": [
+            {
+              "comment": "Can you break this into smaller commits next time?",
+              "author": "Adam James"
+            }
+          ],
+          "filesChanged": 22,
+          "jira": {
+            "epic": "GAL-102",
+            "ticket": "GAL-155"
+          }
+        },
+        {
+          "title": "Augment unit tests for conversation design components",
+          "openedDate": "2024-11-15",
+          "mergedDate": null,
+          "comments": [
+            {
+              "comment": "Looking good so far. Let me know when it's ready for final review.",
+              "author": "Hermione Granger"
+            }
+          ],
+          "filesChanged": 9,
+          "jira": {
+            "epic": "GAL-103",
+            "ticket": "GAL-156"
+          }
+        }
+      ]
+    },
+    {
+      "engineer": "Luna Lovegood",
+      "role": "Senior Software Engineer",
+      "pullRequests": [
+        {
+          "title": "Implement modular React components for front-end epic",
+          "openedDate": "2024-11-07",
+          "mergedDate": "2024-11-08",
+          "comments": [
+            {
+              "comment": "Great job keeping this modular!",
+              "author": "Adam James"
+            },
+            {
+              "comment": "Can you add unit tests for this component?",
+              "author": "Jenny Slate"
+            }
+          ],
+          "filesChanged": 8,
+          "jira": {
+            "epic": "GAL-201",
+            "ticket": "GAL-211"
+          }
+        },
+        {
+          "title": "Fix UI bugs in the assistant onboarding flow",
+          "openedDate": "2024-11-12",
+          "mergedDate": "2024-11-14",
+          "comments": [
+            {
+              "comment": "This fixes the issue perfectly, thanks!",
+              "author": "Ron Weasley"
+            }
+          ],
+          "filesChanged": 5,
+          "jira": {
+            "epic": "GAL-202",
+            "ticket": "GAL-212"
+          }
+        }
+      ]
+    },
+    {
+      "engineer": "Jeremy Casey",
+      "role": "Software Engineer",
+      "pullRequests": [
+        {
+          "title": "Refactor backend API to improve performance",
+          "openedDate": "2024-11-08",
+          "mergedDate": "2024-11-10",
+          "comments": [
+            {
+              "comment": "Nice work on improving performance!",
+              "author": "Adam James"
+            }
+          ],
+          "filesChanged": 18,
+          "jira": {
+            "epic": "GAL-301",
+            "ticket": "GAL-311"
+          }
+        },
+        {
+          "title": "Add error handling for API endpoints",
+          "openedDate": "2024-11-14",
+          "mergedDate": null,
+          "comments": [],
+          "filesChanged": 7,
+          "jira": {
+            "epic": "GAL-302",
+            "ticket": "GAL-312"
+          }
+        }
+      ]
+    },
+    {
+      "engineer": "Adam James",
+      "role": "Senior Software Engineer",
+      "pullRequests": [
+        {
+          "title": "Set up eval framework for Project Gallileo",
+          "openedDate": "2024-11-05",
+          "mergedDate": "2024-11-07",
+          "comments": [
+            {
+              "comment": "This is incredibly thorough, thanks Adam!",
+              "author": "Jenny Slate"
+            }
+          ],
+          "filesChanged": 25,
+          "jira": {
+            "epic": "GAL-401",
+            "ticket": "GAL-411"
+          }
+        },
+        {
+          "title": "Integrate with external API for RAG implementation",
+          "openedDate": "2024-11-09",
+          "mergedDate": "2024-11-11",
+          "comments": [
+            {
+              "comment": "This integration will be a game changer!",
+              "author": "Jeremy Casey"
+            }
+          ],
+          "filesChanged": 19,
+          "jira": {
+            "epic": "GAL-402",
+            "ticket": "GAL-412"
+          }
+        }
+      ]
+    }
+  ]
+}

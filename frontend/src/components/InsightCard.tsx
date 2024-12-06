@@ -1,7 +1,10 @@
 import React from "react";
 import { Insight } from "../types/chat";
 
-const InsightCard: React.FC<{ insight: Insight }> = ({ insight }) => {
+const InsightCard: React.FC<{
+  insight: Insight;
+  handleActionItemClick: (action: string) => void;
+}> = ({ insight, handleActionItemClick }) => {
   return (
     <div className="insight-card">
       <div className="insight-content">
@@ -10,8 +13,11 @@ const InsightCard: React.FC<{ insight: Insight }> = ({ insight }) => {
       </div>
       <div className="insight-actions">
         {insight.actions?.map((action, index) => (
-          <button key={index} className="action-button">
-            <span className="diamond">◆</span>
+          <button
+            onClick={() => handleActionItemClick(action)}
+            key={index}
+            className="action-item-button"
+          >
             {action}
           </button>
         ))}

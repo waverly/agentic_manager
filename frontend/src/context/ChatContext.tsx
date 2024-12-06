@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useCallback } from "react";
 import { Message } from "../types/chat";
 
 interface ChatContextType {
@@ -11,9 +11,9 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
-  const addMessage = (message: Message) => {
+  const addMessage = useCallback((message: Message) => {
     setMessages((prev) => [...prev, message]);
-  };
+  }, []);
 
   return (
     <ChatContext.Provider value={{ messages, addMessage }}>

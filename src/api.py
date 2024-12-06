@@ -8,6 +8,7 @@ import sqlite3
 import logging
 from fastapi.middleware.cors import CORSMiddleware
 from .chatbot.coach_tools import (
+    get_first_message,
     get_team_updates,
     intent_classification,
     synthesize_updates,
@@ -61,6 +62,20 @@ async def root():
     return {
         "message": "Welcome to the Lattice Manager Agent API. Visit /docs for documentation."
     }
+
+
+@app.post("/first_message", tags=["FirstMessage"])
+async def first_message():
+    """
+    Handle chat messages and return responses.
+    """
+    try:
+        response = get_first_message()
+        print("response", response)
+        return response
+    except Exception as e:
+        logger.error(f"Error in chat endpoint: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 class ChatRequest(BaseModel):

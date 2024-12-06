@@ -1,0 +1,140 @@
+{
+  "project": {
+    "name": "Project Gallileo",
+    "description": "Project Gallileo is a fast-moving proof-of-concept to implement conversational, agentic AI in the Lettuce app. The team is building the full stack (frontend, APIs, backend) iteratively while exploring technologies like LangChain and LangGraph. Key goals include showcasing business value, aligning with Lattice Talent Suite, and launching by New Year’s Day.",
+    "progress": 72,
+    "epics": [
+      {
+        "name": "Initial Bootstrapping",
+        "description": "Set up the foundational monorepo structure and development environment for Project Gallileo.",
+        "progress": 100,
+        "tickets": [
+          {
+            "name": "Set up Lettuce monorepo structure",
+            "description": "Configure monorepo for frontend, backend, and API development.",
+            "points": 5,
+            "status": "done",
+            "assignee": "Jenny Slate",
+            "reporter": "Bianca Berg"
+          },
+          {
+            "name": "Establish CI/CD pipelines",
+            "description": "Set up automated testing and deployment pipelines for the monorepo.",
+            "points": 3,
+            "status": "done",
+            "assignee": "Adam James",
+            "reporter": "Jenny Slate"
+          }
+        ]
+      },
+      {
+        "name": "RAG Implementation",
+        "description": "Implement Retrieval-Augmented Generation (RAG) using Amazon Bedrock to enhance assistant responses.",
+        "progress": 90,
+        "tickets": [
+          {
+            "name": "Integrate Amazon Bedrock API",
+            "description": "Connect the backend to Amazon Bedrock for RAG queries.",
+            "points": 5,
+            "status": "done",
+            "assignee": "Adam James",
+            "reporter": "Jenny Slate"
+          },
+          {
+            "name": "Improve API error handling",
+            "description": "Add robust error handling for RAG API endpoints.",
+            "points": 3,
+            "status": "in review",
+            "assignee": "Jeremy Casey",
+            "reporter": "Adam James"
+          }
+        ]
+      },
+      {
+        "name": "Frontend Epic",
+        "description": "Develop the frontend for the conversational assistant, focusing on modularity and user-friendly design.",
+        "progress": 80,
+        "tickets": [
+          {
+            "name": "Create modular React components",
+            "description": "Implement reusable React components for assistant UI.",
+            "points": 5,
+            "status": "done",
+            "assignee": "Luna Lovegood",
+            "reporter": "Jenny Slate"
+          },
+          {
+            "name": "Fix UI bugs in onboarding flow",
+            "description": "Address user-reported bugs in the assistant onboarding interface.",
+            "points": 3,
+            "status": "done",
+            "assignee": "Luna Lovegood",
+            "reporter": "Ron Weasley"
+          },
+          {
+            "name": "Enhance component test coverage",
+            "description": "Add unit tests to ensure reliability of React components.",
+            "points": 3,
+            "status": "in progress",
+            "assignee": "Luna Lovegood",
+            "reporter": "Jenny Slate"
+          }
+        ]
+      },
+      {
+        "name": "LangChain Integration",
+        "description": "Integrate LangChain into the backend to support conversational flows.",
+        "progress": 50,
+        "tickets": [
+          {
+            "name": "Explore LangChain APIs",
+            "description": "Evaluate LangChain capabilities for conversational AI orchestration.",
+            "points": 2,
+            "status": "done",
+            "assignee": "Jenny Slate",
+            "reporter": "Bianca Berg"
+          },
+          {
+            "name": "Build conversational flow prototype",
+            "description": "Create a prototype for agentic AI using LangChain.",
+            "points": 5,
+            "status": "in progress",
+            "assignee": "Jenny Slate",
+            "reporter": "Bianca Berg"
+          },
+          {
+            "name": "Implement retry logic for LangChain tasks",
+            "description": "Add retry mechanisms to improve reliability of LangChain-powered flows.",
+            "points": 3,
+            "status": "blocked",
+            "assignee": "Jenny Slate",
+            "reporter": "Hermione Granger"
+          }
+        ]
+      },
+      {
+        "name": "Evaluation Framework",
+        "description": "Set up evaluation tools and metrics to assess the assistant’s performance.",
+        "progress": 100,
+        "tickets": [
+          {
+            "name": "Set up MLFlow for model evaluation",
+            "description": "Configure MLFlow to track and evaluate assistant performance metrics.",
+            "points": 5,
+            "status": "done",
+            "assignee": "Adam James",
+            "reporter": "Bianca Berg"
+          },
+          {
+            "name": "Write evaluation documentation",
+            "description": "Document evaluation framework for team usage.",
+            "points": 2,
+            "status": "done",
+            "assignee": "Jeremy Casey",
+            "reporter": "Adam James"
+          }
+        ]
+      }
+    ]
+  }
+}
