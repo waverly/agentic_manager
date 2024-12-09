@@ -32,9 +32,13 @@ class Content(BaseModel):
     insights: Optional[List[Card]] = None
 
 
-class FirstMessageContent(Content):
+class FirstMessageContent(BaseModel):
     action_items: List[str]
     type: Literal["FirstMessage"]
+    title: str
+    sections: List[Section]
+    summary: Optional[str] = None
+    conclusionSentence: str
 
 
 class SimpleMessage(BaseModel):
@@ -52,7 +56,12 @@ class AdjustWorkloadContent(Content):
 
 
 class IntentClassificationResponse(BaseModel):
-    intent: Literal["synthesize_updates", "synthesize_adjust_workload"]
+    intent: Literal[
+        "synthesize_updates",
+        "synthesize_adjust_workload",
+        "github_insights",
+        "prepare_for_1_on_1",
+    ]
     confidence: float
     string: Optional[str] = None
     content: Optional[Content] = None

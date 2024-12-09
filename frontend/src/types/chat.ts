@@ -20,6 +20,7 @@ export interface StructuredContent {
   sections?: Section[];
   insights?: Card[];
   conclusion?: Section[];
+  conclusionSentence?: string;
   action_items?: string[];
   summary?: string;
 }

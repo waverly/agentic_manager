@@ -34,11 +34,13 @@ analyzing team updates, sentiment trends, and workplace dynamics.
 
 Your goal is to provide clear, concise, and actionable insights based on team feedback, updates, 
 and behaviors. 
-Respond to Bianca's questions by synthesizing information into summaries or recommendations, 
+Respond to the user's questions by synthesizing information into summaries or recommendations, 
 ensuring empathy, professionalism, and relevance.
 
+DO NOT refer to the user in the third person. Refer to them as "you" or "your".
+
 When responding:
-- Respond directly to the current user. Do not include the current user in your response - assume
+- Respond directly to the current user (see: user context data to understand who is making the request). Do not include the current user in your response - assume
 they are the manager of the team and the person making the request. For example, if the user's first
 name from the user context data is Bianca, assume that Bianca is the manager, and use the org structure
 to understand who reports to Bianca.
@@ -77,16 +79,16 @@ def get_first_message() -> dict:
     """Use this to get the first message from the user."""
 
     system_template = f"""
-       You are an AI management coach. For the title, tell the user the day's date and offer a summary of the team data 
-       so that the manager
-       can understand the current state of the team and progress of the primary project, Project Gallileo.
+       You are an AI management coach. For the title, tell the user the day's date and offer a summary of progress of the primary project, Project Gallileo.
        
        The user is Bianca, the manager of the team. So do not refer to her in the third person. If you need to 
        address her, use "you" or "your".
        
        Your name is "Coach Lattice". and your tone is fun and friendly. Make sure this tone is reflected in the one sentence summary at the top of the response.
          
-       Include a title for the response that says 'the week of _todays date_' (but format the date like Weds, Jan 1st, etc.) and then adds a very short tagline for the week
+       Include a title for the response that says 'the week of November 18th'and then adds a very short tagline for the week
+       
+        Start with a one sentence summary of how the team is doing overall and how the primary project, Project Gallileo, is doing.
        
         Your first message MUST ALWAYS include exactly these 4 sections in this order:
         1. Team Sentiment
@@ -94,23 +96,9 @@ def get_first_message() -> dict:
         3. Project Progress
         4. Your Meetings
 
-        Each section must have exactly 3 bullet points.
-
-       For the action items, keep them to 10 words or less. 
-    """
-
-    user_message = f"""
-    Please help me understand the current state of my team, especially with regards to my direct reports, and progress of the primary project, Project Gallileo.
+        Each section must have exactly 3 bullet points. For the action items, keep them to 10 words or less. 
         
-     Start with a one sentence summary of how the team is doing overall and how the primary project, Project Gallileo, is doing.
-        
-       Provide exactly 4 summary sections in your response, each with a heading and a list of up to 3 points. 
-       1. Team sentiment: use the team updates data to understand if the team sentiment is trending up or down, and support
-        with quotes from employee updates
-       2. Team time management: use the calendar data to understand if the team is spending too much time in meetings, and support
-       3. Project progress: summarize number of github PRs that were merged last week, and synthesize Jira data to see
-        if the project is on track.
-       4. User's meetings: use the calendar to give the user a list of meetings I have this week, and any that are coming up soon.
+        Finish with a conclusion sentence that tells the user they can click on any of the action items or ask you a different question using the text input
         
         Use the following data to help you:
         - team updates: {get_team_updates()}
@@ -120,6 +108,19 @@ def get_first_message() -> dict:
         - github data: {get_github_data()}
         - jira data: {get_jira_data()}
         - calendar data for direct reports: {get_calendar_data()}
+    """
+
+    user_message = f"""
+        Please help me understand the current state of my team, especially with regards to my direct reports, and progress of the primary project, Project Gallileo.
+        
+       Provide exactly 4 summary sections in your response, each with a heading and a list of up to 3 points. 
+       1. Team sentiment: use the team updates data to understand if the team sentiment is trending up or down, and support
+        with quotes from employee updates
+       2. Team time management: use the calendar data to understand if the team is spending too much time in meetings, and support
+       3. Project progress: summarize number of github PRs that were merged by Bianca's direct reports last week, and synthesize Jira data to see
+        if the project is on track.
+       4. User's meetings: use the calendar to give the user a list of meetings I have this week, and any that are coming up soon.
+        
         
         At the end of your response, offer 4 suggested action items that I can take to help my team and project succeed.
         Offer these four action items:
@@ -128,7 +129,6 @@ def get_first_message() -> dict:
         3. Understand the change in team sentiment
         4. Prepare for leads sync on project Gallileo
         
-        End with a conclusion that says something like "If you would like help with something else, give me a shout! I can help you by synthesizing data from the Lattice platform, or even making changes in gCal or Jira for you. "
     """
 
     completion = client.beta.chat.completions.parse(
@@ -173,12 +173,20 @@ def synthesize_updates(message: str) -> dict:
     2. Include citation numbers for each point
     3. Structure insights as cards with title, description, and actions
     4. Ensure all points include their source citations
+    5. DO NOT refer to the current user in the third person, to them as "you" or "your".
     """
 
     insight_format_instructions = """
-    Structure insights as cards with title, description, and a single action.
-    Some examples of actions are: "Prepare for 1:1 with Jenny", "Optimize the workload for the team",
-    "Send requests for feedback", or "Schedule a celebratory team lunch"
+    Structure insights as cards with title, description, and a single action."
+    
+    When offering insights, aim to synthesize data from multiple sources to offer a comprehensive understanding of the team's state. For example,
+    ""It looks like Adam has spent a lot of time reviewing PRs (list a few examples), but hasn't been submitting Feedback."
+    
+    Some examples of actions are: 
+        - "Prepare for 1:1 with Jenny" (this would help work closely with Jenny)
+        - "Optimize the workload for the team" (this would address the issue of meeting overload)
+        - "Send requests for feedback" (this would help foster better communication and collaboration)
+        - "Schedule a celebratory team lunch" (this would help boost morale)
     """
 
     system_template = f"""
@@ -200,7 +208,8 @@ def synthesize_updates(message: str) -> dict:
             {message}
         Focus on:
         - Meeting loads and time management
-        - Preparing for my 1:1 with Jenny 
+        - Effective collaboration and communication
+        - Working closely with Jenny to help her guide the team
         - Team morale and workload distribution
         - Improving team dynamics by encouraging more feedback and open communication
         """
@@ -251,7 +260,9 @@ def synthesize_adjust_workload(message: str) -> dict:
 
     expected_outcome_format_instructions = """
     The expected outcome section should have a single heading that says "Expected Outcome" and a list of points
-    that describe the expected outcome if all suggestions are implemented.
+    that describe the expected outcomes if all suggestions are implemented.
+    
+    This should be included in the response under the "conclusion" section, and not in the "sections" section.
     """
 
     system_template = f"""
@@ -263,13 +274,16 @@ def synthesize_adjust_workload(message: str) -> dict:
         Please follow these instructions for sections:
         {section_format_instructions}
         
+        Offer 4 insights into how the workload could be adjusted. Each insight should have a title, description, and a SINGLE action. Here are the rough ideas for the three insights:
+        1. Prepare for essential 1:1s with your direct reports. Focus on Jenny. The action item would be something like "Prepare for 1:1 with Jenny"
+        2. Encourage team members to give more feedback to each other to reinforce psychological safety, and offer to help facilitate this by initiating feedback requests. The action item would be something like "Send feedback requests to the team"
+        3. Update the agenda for the upcoming retrospective to include topics related to workload distribution and team morale. The action item would be something like "Edit the calendar agenda for the upcoming retrospective"
+        4. Ensure JIRA epics are updated to reflect the new workload distribution. The action item would be something like "Update JIRA epics to reflect the new workload distribution"
+        
         Please follow these instructions for the expected outcome:
         {expected_outcome_format_instructions}
         
-        To finish, offer 3 insights into how the workload could be adjusted. Each insight should have a title, description, and a SINGLE action. Here are the rough ideas for the three insights:
-        1. Consider how to help Jenny be more effective, and offer to help prepare for your 1:1 with her
-        2. Encourage team members to give more feedback to each other to reinforce psychological safety, and offer to help facilitate this by initiating feedback requests
-        3. Update the agenda for the upcoming retrospective to include topics related to workload distribution and team morale. The action item would be something like "Edit the agenda for the upcoming retrospective"
+
     """
 
     user_message = f"""
@@ -322,32 +336,8 @@ def synthesize_adjust_workload(message: str) -> dict:
 
 
 def prepare_for_1_on_1(message: str) -> dict:
-    system_template = f"""
-        {general_system_template}
-        
-        You are preparing for a 1:1 with Jenny specifically. Focus ONLY on Jenny's:
-        1. Recent work and contributions (from Github and Jira)
-        2. Growth areas and career development (using the staff eng competency matrix)
-        3. Meeting load and time management (from calendar)
-        4. Recent feedback and team interactions
-        
-        When creating insights:
-        - Each insight must be specific to Jenny (not general team observations)
-        - Use direct quotes and data points from Jenny's updates and feedback
-        - Reference specific PRs, Jira tickets, or meetings Jenny is involved in
-        - Compare Jenny's current work to the staff engineer competency matrix
-        - Suggest specific talking points for the 1:1 agenda
-        
-        DO NOT:
-        - Include general team observations
-        - Reuse insights from team-wide analysis
-        - Make generic suggestions
-        
-        Each insight must have a specific action item related to Jenny, such as:
-        - "Review Jenny's recent PR on the RAG implementation"
-        - "Discuss Jenny's mentorship of Luna on the frontend work"
-        - "Address Jenny's concern about the LangChain integration timeline"
-    """
+    """Use this to prepare for a 1:1 with a direct report."""
+    print("top of prepare for 1:1")
 
     updates = get_team_updates()
     json_updates = json.dumps(updates, indent=2)
@@ -367,20 +357,47 @@ def prepare_for_1_on_1(message: str) -> dict:
     github_data = get_github_data()
     json_github_data = json.dumps(github_data, indent=2)
 
-    one_on_ones = get_1_1s()
-    json_one_on_ones = json.dumps(one_on_ones, indent=2)
+    # mock data not generated yet
+    # one_on_ones = get_1_1s()
+    # json_one_on_ones = json.dumps(one_on_ones, indent=2)
+
+    system_template = f"""
+        {general_system_template}
+        
+        The title should be "Upcoming 1:1 with Jenny: preparation points"
+        
+        In the sections, offer 4 distinct sections relating to categories of Jenny's work and participation on the team in the last two weeks. 
+        Each section should have a heading and a list of up to 3 points.
+        For insights, offer EXACTLY 4 insights that are specific to Jenny's work. Each insight should have a title, description, and a SINGLE action.
+        Some sample actions would be: "Add this talking point to the agenda for the 1:1", "Review Jenny's recent PR on the RAG implementation",
+        "Discuss Jenny's mentorship of Luna on the frontend work", "Review Jenny's PTO requests", or "Request feedback on Jenny's behalf'"`
+        
+    """
 
     user_message = f"""
-    
-    Here is the user's message: 
+
+    Here is the user's message:
         {message}
-    
+
     Be very specific and analytical, making sure to knit together the vast data sources and offer citations and suggestions.
-    I want to know what Jenny has been working on in Github, Jira, and gCal. How many PRs has she reviewed? How many issues has she 
+    I want to know what Jenny has been working on in Github, Jira, and gCal. How many PRs has she reviewed? How many issues has she
     been assigned to? What is the status of those issues? What meetings has she been in? What was the outcome of those meetings?
-    
+
     Glean as much information as you can from the data sources and offer suggestions for Jenny's development.
-            
+
+    Here is the relevant data:
+        - team updates:
+            {json_updates}.
+        - reviews:
+            {json_reviews}
+        - feedback:
+            {json_feedback}
+        - jira data:
+            {json_jira_data}
+        - calendar data for direct reports:
+            {json_calendar_data}
+        - github data:
+            {json_github_data}
     """
 
     completion = client.beta.chat.completions.parse(
@@ -401,7 +418,7 @@ def prepare_for_1_on_1(message: str) -> dict:
     try:
         response = completion.choices[0].message.parsed
 
-        print("get_team_updates response is ", response)
+        print("prepare_for_1_on_1 response is ", response)
         return response
     except json.JSONDecodeError:
         raise ValueError("Invalid JSON response from OpenAI")
@@ -457,6 +474,44 @@ def ask_for_clarification(message: str) -> SimpleMessage:
     }
 
 
+def github_insights(message: str) -> dict:
+    github_data = get_github_data()
+    json_github_data = json.dumps(github_data, indent=2)
+
+    system_template = f"""
+        {general_system_template}
+        
+        Here is the user's github data:
+            {json_github_data}
+        
+        In the insights, offer 2 insights with one action item each.
+        Some examples: "Add Jenny's recent PR to the agenda for the next 1:1",
+        or "Add JIRA ticket to include cleanup of tech debt in the next sprint"
+    """
+
+    completion = client.beta.chat.completions.parse(
+        model=MODEL,
+        messages=[
+            {
+                "role": "system",
+                "content": system_template,
+            },
+            {
+                "role": "user",
+                "content": message,
+            },
+        ],
+        response_format=Content,
+    )
+
+    try:
+        response = completion.choices[0].message.parsed
+        print("githyub message response is ", response)
+        return response
+    except json.JSONDecodeError:
+        raise ValueError("Invalid JSON response from OpenAI")
+
+
 # INTENT CLASSIFICATION
 tool_registry: dict[str, dict[str, Callable]] = {
     "synthesize_updates": {
@@ -471,6 +526,10 @@ tool_registry: dict[str, dict[str, Callable]] = {
         "description": "User wants help preparing for a 1:1",
         "function": prepare_for_1_on_1,
     },
+    "github_insights": {
+        "description": "User wants insights on github activity",
+        "function": github_insights,
+    },
 }
 
 
@@ -481,7 +540,8 @@ def intent_classification(
     """Use this to classify the user's intent."""
     system_template = """
                 Classify the user's intent into ONLY one of these categories:
-                - synthesize_updates: User wants to understand team updates or trends
+                - github_insights: User wants insights on github activity, pull requests, or PRs
+                - synthesize_updates: User wants to understand team update data or changes in team sentiment
                 - synthesize_adjust_workload: User wants help with workload adjustment
                 - prepare_for_1_on_1: User wants help preparing for a 1:1 with a direct report
                 
@@ -526,4 +586,12 @@ def intent_classification(
         print("confidence is greater than 0.7", confidence)
         print("intent", intent)
         print(f"from intent classification, {tool_registry[intent]['description']}")
-        return tool_registry[intent]["function"](message)
+        if intent in tool_registry:
+            print(f"Found tool: {intent}")  # Debug print
+            tool = tool_registry[intent]["function"]
+            print(f"Got function: {tool}")  # Debug print
+            result = tool(message)  # Add variable to help debug
+            print(f"Got result: {result}")  # Debug print
+            return result
+        else:
+            raise ValueError(f"Intent {intent} not found in tool registry")

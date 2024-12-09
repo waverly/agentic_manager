@@ -26,8 +26,15 @@ const ChatMessage = ({
     return <div className={`chat-message ${role}`}>{simpleMessage}</div>;
   }
 
-  const { title, sections, insights, conclusion, action_items, summary } =
-    content;
+  const {
+    title,
+    sections,
+    insights,
+    conclusion,
+    conclusionSentence,
+    action_items,
+    summary,
+  } = content;
 
   const handleActionItemClick = (actionItem: string) => {
     addMessage({
@@ -142,6 +149,9 @@ const ChatMessage = ({
             </ul>
           )}
         </div>
+      )}
+      {conclusionSentence && (
+        <p className="conclusion-sentence">{conclusionSentence}</p>
       )}
     </div>
   );

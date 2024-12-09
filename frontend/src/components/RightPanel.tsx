@@ -3,51 +3,53 @@ import React from "react";
 const Sidebar = () => {
   return (
     <aside className="right-sidebar">
-      <div className="date">Monday, November 16</div>
+      <div className="date">Wednesday, November 18</div>
 
       <div className="highlights-card">
         <div className="section-label">HIGHLIGHTS</div>
-          <div className="card-content">
-            <div className="recent-work">
-              <h2>Recent work</h2>
-              <p>
-                The team started working on{" "}
-                <a href="#" className="mention">
-                  @Project Galileo
-                </a>
-                , they've closed out 4{" "}
-                <a href="#" className="mention">
-                  @JIRA
-                </a>{" "}
-                epics and are preparing to start dogfooding.
-              </p>
-            </div>
-
-            <div className="sentiment">
-              <h2>Sentiment</h2>
-              <div className="sentiment-graph">
-                <svg width="100%" height="40" viewBox="0 0 280 40" fill="none">
-                  <path
-                    d="M0 35L20 32L40 30L60 28L80 25L100 28L120 25L140 20L160 15L180 18L200 15L220 10L240 8L260 5L280 2"
-                    stroke="url(#gradient)"
-                    strokeWidth="2"
-                    fill="none"
-                  />
-                  <defs>
-                    <linearGradient id="gradient" x1="0" y1="0" x2="280" y2="0">
-                      <stop offset="0%" stopColor="#818CF8" />
-                      <stop offset="100%" stopColor="#6366F1" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-              <ul>
-                <li>Your team's sentiment is trending lower</li>
-                <li>Fewer folks feel they can bring up tough issues on the team</li>
-                <li>Jenny and Luna each spent more than 15 hours in Meetings</li>
-              </ul>
-            </div>
+        <div className="card-content">
+          <div className="recent-work">
+            <h2>Recent work</h2>
+            <p>
+              The team started working on{" "}
+              <a href="#" className="mention">
+                @Project Galileo
+              </a>
+              , they've closed out 4{" "}
+              <a href="#" className="mention">
+                @JIRA
+              </a>{" "}
+              epics and are preparing to start dogfooding.
+            </p>
           </div>
+
+          <div className="sentiment">
+            <h2>Sentiment</h2>
+            <div className="sentiment-graph">
+              <svg width="100%" height="40" viewBox="0 0 280 40" fill="none">
+                <path
+                  d="M0 35L20 32L40 30L60 28L80 25L100 28L120 25L140 20L160 15L180 18L200 15L220 10L240 8L260 5L280 2"
+                  stroke="url(#gradient)"
+                  strokeWidth="2"
+                  fill="none"
+                />
+                <defs>
+                  <linearGradient id="gradient" x1="0" y1="0" x2="280" y2="0">
+                    <stop offset="0%" stopColor="#818CF8" />
+                    <stop offset="100%" stopColor="#6366F1" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <ul>
+              <li>Your team's sentiment is trending lower</li>
+              <li>
+                Fewer folks feel they can bring up tough issues on the team
+              </li>
+              <li>Jenny and Luna each spent more than 15 hours in Meetings</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div className="highlights-card">
