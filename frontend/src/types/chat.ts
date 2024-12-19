@@ -27,9 +27,8 @@ export interface StructuredContent {
 
 export interface Message {
   role: string;
-  content?: StructuredContent;
-  simpleMessage?: string;
   type: string;
+  content: string;
 }
 
 export interface Insight {

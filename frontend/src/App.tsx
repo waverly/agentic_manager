@@ -12,7 +12,7 @@ function App() {
       <ChatProvider>
         <MainContent />
       </ChatProvider>
-      <RightPanel />
+      {/* <RightPanel /> */}
     </div>
   );
 }
