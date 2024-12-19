@@ -1,83 +1,225 @@
-import React, { useEffect, useState, useRef } from "react";
-import ChatMessage from "./ChatMessage";
-import { useChat } from "../context/useChatContext";
-import { Message } from "../types/chat";
+// frontend/src/components/MainContent.jsx
 
-const AssistantPrompt = ({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}) => (
-  <div className="assistant-prompt">
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-    >
-      <path d="M8 2L10 6L14 7L11 10L12 14L8 12L4 14L5 10L2 7L6 6L8 2Z" />
-    </svg>
-    <div>
-      <div className="prompt-title">{title}</div>
-      <p className="prompt-description">{description}</p>
-    </div>
-  </div>
-);
+import React, { useEffect, useState } from "react";
+import { Message } from "../types/chat";
+import InsightCard from "./InsightCard";
 
 const MainContent = () => {
-  const { messages, addMessage } = useChat();
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]); // Store grouped messages
 
-  useEffect(() => {
-    // let mounted = true;
-    // const controller = new AbortController();
+  const addMessage = (message: Message) => {
+    setMessages((prevMessages) => [...prevMessages, message]);
+  };
 
-    const fetchFirstMessage = async () => {
-      setIsLoading(true);
-      try {
-        console.log("fetching first message");
-        const response = await fetch("http://localhost:8000/first_message", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          //   signal: controller.signal,
-        });
+  // Reset messages array when component mounts
+  const resetMessages = () => {
+    setMessages([]);
+  };
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+  const accumulatedStreamContent = (messageData: Message) => {
+    console.log("messageData", messageData);
+    setMessages((prevMessages) => {
+      if (prevMessages.length === 0) {
+        return [{ ...messageData }];
+      }
+
+      const lastMessage = prevMessages[prevMessages.length - 1];
+      // allow headers and body to be grouped together
+
+      if (
+        (messageData.type === "heading" || messageData.type === "body") &&
+        lastMessage.role === messageData.role &&
+        lastMessage.type === messageData.type
+      ) {
+        // Append content to the last message
+        const updatedMessages = [...prevMessages];
+        updatedMessages[updatedMessages.length - 1] = {
+          ...lastMessage,
+          content: lastMessage.content + " " + messageData.content,
+        };
+        return updatedMessages;
+      }
+
+      // Add new message
+      return [...prevMessages, { ...messageData }];
+    });
+  };
+
+  const streamMessage = async (messageStream: Response) => {
+    const reader = messageStream.body?.getReader();
+    if (!reader) {
+      console.log("Failed to get response body reader");
+      throw new Error("Failed to get response body reader");
+    }
+    const decoder = new TextDecoder("utf-8");
+
+    let accumulated = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        console.log("Stream is done!");
+        break;
+      }
+
+      // Decode the chunk and accumulate
+      accumulated += decoder.decode(value, { stream: true });
+      // Split accumulated text into complete lines (NDJSON format)
+      const lines = accumulated.split("\n");
+      accumulated = lines.pop() || ""; // Save the incomplete line for next iteration
+
+      lines.forEach((line) => {
+        if (line.trim()) {
+          try {
+            const data = JSON.parse(line); // Parse streamed NDJSON
+            accumulatedStreamContent(data);
+          } catch (err) {
+            console.error("Failed to parse NDJSON chunk:", err);
+            // Optionally add a system error message
+            setMessages((prevMessages) => [
+              ...prevMessages,
+              {
+                role: "system",
+                type: "error",
+                content: "An error occurred while processing the response.",
+              },
+            ]);
+          }
         }
+      });
+    }
+  };
 
-        console.log("response", response);
+  // Render different message types
+  const renderElement = (element: Message, index: number) => {
+    switch (element.type) {
+      case "message":
+        console.log("element", element);
+        return (
+          <p
+            className={`chat-message ${
+              element.role === "assistant" ? "assistant" : "user"
+            }`}
+            key={index}
+          >
+            {element.content}
+          </p>
+        );
 
-        const data = await response.json();
+      case "title":
+        return (
+          <h1 className="chat-title" key={index}>
+            {element.content}
+          </h1>
+        );
 
-        console.log("data", data);
+      case "heading":
+        return (
+          <h2 className="chat-heading" key={index}>
+            {element.content}
+          </h2>
+        );
 
-        addMessage({
-          role: "assistant",
-          simpleMessage: data?.simpleMessage,
-          content: data || null,
-          type: data.type,
-        });
+      case "body":
+        return (
+          <p
+            className={`chat-message ${
+              element.role === "assistant" ? "assistant" : "user"
+            }`}
+            key={index}
+          >
+            {element.content}
+          </p>
+        );
+
+      case "action_item":
+        return (
+          <button
+            onClick={() => handleActionItemClick(element.content)}
+            key={index}
+            className="action-item-button"
+          >
+            {element.content}
+          </button>
+        );
+      // return <p className="chat-action-item">{element.content}</p>;
+
+      case "error":
+        return (
+          <p className="chat-error" key={index}>
+            {element.content}
+          </p>
+        );
+
+      // Add more cases as needed for different types
+
+      default:
+        return (
+          <p
+            className={`chat-message ${
+              element.role === "assistant" ? "assistant" : "user"
+            }`}
+            key={index}
+          >
+            {element.content}
+          </p>
+        );
+    }
+  };
+
+  // ON MOUNT
+  useEffect(() => {
+    resetMessages();
+    setIsLoading(true);
+
+    const handleFirstMessageStream = async () => {
+      try {
+        const firstMessageStream = await fetch(
+          "http://localhost:8000/first_message_stream"
+        );
+        streamMessage(firstMessageStream);
       } catch (error) {
-        // if (error.name === "AbortError") return;
-        console.error("Error:", error);
+        console.error("Error streaming NDJSON:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchFirstMessage();
-
-    return () => {
-      console.log("cleanup called ");
-    };
+    handleFirstMessageStream();
   }, []);
+
+  // on submit or action item click
+  const handleChatResponse = async (messageText: string) => {
+    try {
+      const assistantResponseData = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: messageText,
+          last_system_message: messages[messages.length - 1]?.content || "",
+        }),
+      });
+      console.log("assistantResponseData", assistantResponseData);
+      streamMessage(assistantResponseData);
+    } catch (error) {
+      console.error("Error:", error);
+      // Optionally add a system error message
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          role: "system",
+          type: "error",
+          content: "An error occurred while sending your message.",
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,70 +229,45 @@ const MainContent = () => {
     // Add user message
     const userMessage: Message = {
       role: "user",
-      type: "plain_text",
-      simpleMessage: inputText,
+      type: "message",
+      content: inputText,
     };
 
-    // Add user message
-    addMessage(userMessage);
+    // Add user message to messages array
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
     setInputText("");
 
-    try {
-      const response = await fetch("http://localhost:8000/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: inputText }),
-      });
-
-      const data = await response.json();
-
-      console.log("data", data);
-
-      // Add assistant response
-      //   TODO: make more generalized
-      addMessage({
-        role: "assistant",
-        simpleMessage: data?.simpleMessage,
-        content: data || null,
-        type: data.type,
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    await handleChatResponse(inputText);
   };
+
+  const handleActionItemClick = (actionItem: string) => {
+    addMessage({
+      role: "user",
+      type: "body",
+      content: actionItem,
+    });
+    handleChatResponse(actionItem);
+  };
+
+  console.log("messages", messages);
 
   return (
     <main className={`main-content`}>
       <div className={`inner-content ${isLoading ? "loading" : ""}`}>
-        {!messages ||
-          (messages.length === 0 && (
-            <div className="intro-text">
-              <h1>Hey Bianca, Coach Lattice here!</h1>
-              <p className="subtitle">
-                Thought I'd stop by, since I noticed some new activity on your
-                team! Please give me a moment while I gather some insights to
-                share...
-              </p>
-            </div>
-          ))}
+        {!messages.length && (
+          <div className="intro-text">
+            <h1>Hey Bianca, Coach Lattice here!</h1>
+            <p className="subtitle">
+              Thought I'd stop by, since I noticed some new activity on your
+              team. Please give me a moment while I gather some insights to
+              share...
+            </p>
+          </div>
+        )}
 
         <div className="prompts-wrapper">
           <div className="prompts-container">
-            {messages.length > 0 && (
-              <div className="response-container">
-                {messages.map((message, index) => (
-                  <ChatMessage
-                    setIsLoading={setIsLoading}
-                    key={index}
-                    {...message}
-                  />
-                ))}
-              </div>
-            )}
+            {messages.map((msg, index) => renderElement(msg, index))}
           </div>
         </div>
         {isLoading && <div className="loading-indicator">🤸</div>}
