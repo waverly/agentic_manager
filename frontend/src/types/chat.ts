@@ -25,11 +25,11 @@ export interface StructuredContent {
   summary?: string;
 }
 
-export interface Message {
-  role: string;
-  type: string;
+export type Message = {
+  role: "assistant" | "user" | "system";
+  type: "message" | "title" | "heading" | "body" | "highlight" | "flag" | "action_item" | "error";
   content: string;
-}
+};
 
 export interface Insight {
   title?: string;

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { Message } from "../types/chat";
-import InsightCard from "./InsightCard";
 
 const MainContent = () => {
   const [inputText, setInputText] = useState("");
@@ -19,21 +18,27 @@ const MainContent = () => {
   };
 
   const accumulatedStreamContent = (messageData: Message) => {
-    console.log("messageData", messageData);
+    console.log("Accumulating message:", messageData);
+
     setMessages((prevMessages) => {
+      // For action items, always add as new message
+      if (messageData.type === "action_item") {
+        console.log("Adding action item:", messageData);
+        return [...prevMessages, { ...messageData }];
+      }
+
       if (prevMessages.length === 0) {
         return [{ ...messageData }];
       }
 
       const lastMessage = prevMessages[prevMessages.length - 1];
-      // allow headers and body to be grouped together
 
+      // Only combine consecutive messages of the same type and role, and only for heading and body
       if (
         (messageData.type === "heading" || messageData.type === "body") &&
         lastMessage.role === messageData.role &&
         lastMessage.type === messageData.type
       ) {
-        // Append content to the last message
         const updatedMessages = [...prevMessages];
         updatedMessages[updatedMessages.length - 1] = {
           ...lastMessage,
@@ -42,7 +47,6 @@ const MainContent = () => {
         return updatedMessages;
       }
 
-      // Add new message
       return [...prevMessages, { ...messageData }];
     });
   };
@@ -66,6 +70,8 @@ const MainContent = () => {
 
       // Decode the chunk and accumulate
       accumulated += decoder.decode(value, { stream: true });
+      console.log("accumulated", accumulated);
+
       // Split accumulated text into complete lines (NDJSON format)
       const lines = accumulated.split("\n");
       accumulated = lines.pop() || ""; // Save the incomplete line for next iteration
@@ -73,11 +79,13 @@ const MainContent = () => {
       lines.forEach((line) => {
         if (line.trim()) {
           try {
-            const data = JSON.parse(line); // Parse streamed NDJSON
+            const data = JSON.parse(line);
+            console.log("Parsed NDJSON line:", data); // Debug log
+            console.log("Message type:", data.type); // Debug log
             accumulatedStreamContent(data);
           } catch (err) {
             console.error("Failed to parse NDJSON chunk:", err);
-            // Optionally add a system error message
+            console.error("Problem line:", line); // Debug log
             setMessages((prevMessages) => [
               ...prevMessages,
               {
@@ -94,6 +102,7 @@ const MainContent = () => {
 
   // Render different message types
   const renderElement = (element: Message, index: number) => {
+    console.log("Rendering element:", element); // Debug log
     switch (element.type) {
       case "message":
         console.log("element", element);
@@ -134,7 +143,22 @@ const MainContent = () => {
           </p>
         );
 
+      case "highlight":
+        return (
+          <p className="chat-highlight" key={index}>
+            {element.content}
+          </p>
+        );
+
+      case "flag":
+        return (
+          <p className="chat-flag" key={index}>
+            ⚠️ {element.content}
+          </p>
+        );
+
       case "action_item":
+        console.log("Rendering action item:", element); // Debug log
         return (
           <button
             onClick={() => handleActionItemClick(element.content)}
@@ -144,7 +168,6 @@ const MainContent = () => {
             {element.content}
           </button>
         );
-      // return <p className="chat-action-item">{element.content}</p>;
 
       case "error":
         return (
@@ -152,8 +175,6 @@ const MainContent = () => {
             {element.content}
           </p>
         );
-
-      // Add more cases as needed for different types
 
       default:
         return (
@@ -240,16 +261,49 @@ const MainContent = () => {
     await handleChatResponse(inputText);
   };
 
-  const handleActionItemClick = (actionItem: string) => {
+  const handleActionItemClick = async (actionItem: string) => {
+    setIsLoading(true);
+    
+    // Add user message showing the action being taken
     addMessage({
       role: "user",
       type: "body",
       content: actionItem,
     });
-    handleChatResponse(actionItem);
+
+    try {
+      const response = await fetch("http://localhost:8000/execute_action", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: actionItem,
+        }),
+      });
+
+      // Stream the response
+      streamMessage(response);
+    } catch (error) {
+      console.error("Error executing action:", error);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          role: "system",
+          type: "error",
+          content: "Failed to execute action. Please try again.",
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   console.log("messages", messages);
+
+  useEffect(() => {
+    console.log("Messages state updated:", messages);
+  }, [messages]);
 
   return (
     <main className={`main-content`}>

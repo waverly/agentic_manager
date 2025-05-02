@@ -18,7 +18,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import openai
 
-from .chatbot.one_one_prep_tools import classify_intent
+from .chatbot.one_one_prep_tools import classify_intent, execute_action
 
 app = FastAPI(
     title="Lattice Manager Agent API",
@@ -121,3 +121,15 @@ async def chat_endpoint(request: ChatRequest):
     except Exception as e:
         logger.error(f"Error in chat endpoint: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/execute_action")
+async def execute_action_endpoint(request: dict):
+    action = request.get("action")
+    if not action:
+        raise HTTPException(status_code=400, detail="No action provided")
+        
+    return StreamingResponse(
+        execute_action(action),
+        media_type="application/x-ndjson"
+    )
