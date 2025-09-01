@@ -716,3 +716,24 @@ h1 {
   /* opacity: 0.3; */
   /* filter: blur(8px); */
 }
+
+.chat-highlight {
+  background-color: rgba(209, 243, 255, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  color: #272727;
+  border-left: 4px solid #d1f3ff;
+}
+
+.chat-flag {
+  background-color: rgba(255, 209, 209, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  color: #272727;
+  border-left: 4px solid #ffd1d1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

@@ -220,5 +220,19 @@
         ]
       }
     ]
-  }
+  },
+  "time_off": [
+    {
+      "name": "Jenny Slate",
+      "requests": [
+        {
+          "type": "PTO",
+          "start_date": "2024-12-20",
+          "end_date": "2024-12-31",
+          "status": "pending",
+          "notes": "Year-end holiday break"
+        }
+      ]
+    }
+  ]
 }

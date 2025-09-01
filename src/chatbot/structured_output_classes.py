@@ -47,6 +47,12 @@ class SimpleMessage(BaseModel):
     role: Literal["assistant"]
 
 
+class Content(BaseModel):
+    content: str
+    type: Literal["message", "heading", "action_item"]
+    role: Literal["user", "system"]
+
+
 class UpdatesSynthesisContent(Content):
     insights: List[Card]
 
